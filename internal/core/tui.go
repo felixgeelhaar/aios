@@ -174,11 +174,12 @@ func (m tuiModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m tuiModel) View() string {
 	var b strings.Builder
-	styleHeader := lipgloss.NewStyle().Bold(true)
-	styleSelected := lipgloss.NewStyle().Bold(true)
+	styleHeader := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("86"))
+	styleSelected := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("99"))
 	styleMuted := lipgloss.NewStyle().Faint(true)
-	styleSuccess := lipgloss.NewStyle().Bold(true)
-	styleError := lipgloss.NewStyle().Bold(true)
+	styleSuccess := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("82"))
+	styleError := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("204"))
+	styleInput := lipgloss.NewStyle().Foreground(lipgloss.Color("86"))
 
 	b.WriteString(styleHeader.Render("AIOS Operations Console"))
 	b.WriteString("\n\n")
@@ -194,14 +195,14 @@ func (m tuiModel) View() string {
 		b.WriteString(styleHeader.Render("Init skill"))
 		b.WriteString("\n")
 		b.WriteString("skill directory: ")
-		b.WriteString(m.input)
+		b.WriteString(styleInput.Render(m.input))
 		b.WriteString("\n")
 		b.WriteString(styleMuted.Render("enter to confirm, esc to cancel"))
 	case screenSkillSync:
 		b.WriteString(styleHeader.Render("Sync skill"))
 		b.WriteString("\n")
 		b.WriteString("skill directory: ")
-		b.WriteString(m.input)
+		b.WriteString(styleInput.Render(m.input))
 		b.WriteString("\n")
 		b.WriteString(styleMuted.Render("enter to confirm, esc to cancel"))
 	}

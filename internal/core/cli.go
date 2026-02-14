@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/felixgeelhaar/aios/internal/agents"
@@ -41,6 +42,36 @@ import (
 	"github.com/felixgeelhaar/aios/internal/skill"
 	mcpg "github.com/felixgeelhaar/mcp-go"
 )
+
+type progressWriter struct {
+	out     io.Writer
+	mu      sync.Mutex
+	spinner []string
+	active  bool
+}
+
+func newProgressWriter(out io.Writer) *progressWriter {
+	return &progressWriter{
+		out:     out,
+		spinner: []string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"},
+	}
+}
+
+func (p *progressWriter) Start(msg string) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if !p.active {
+		p.active = true
+		_, _ = fmt.Fprintf(p.out, "%s %s\n", p.spinner[0], msg)
+	}
+}
+
+func (p *progressWriter) Stop(msg string) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.active = false
+	_, _ = fmt.Fprintln(p.out, msg)
+}
 
 type CLI struct {
 	In                 io.Reader
@@ -133,7 +164,7 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 		SyncPlan:  syncPlanService.BuildSyncPlan,
 		InitSkill: func(skillDir string) error {
 			if skillDir == "" {
-				return fmt.Errorf("skill-dir is required")
+				return fmt.Errorf("skill directory is required\n\nUsage: aios skills init <skill-dir>\nExample: aios skills init my-skill")
 			}
 			return builder.BuildSkill(builder.Spec{
 				ID:      filepath.Base(skillDir),
@@ -334,7 +365,7 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 		},
 		MarketplaceInstall: func(_ context.Context, skillID string) (map[string]any, error) {
 			if strings.TrimSpace(skillID) == "" {
-				return nil, fmt.Errorf("skill id is required")
+				return nil, fmt.Errorf("skill id is required\n\nUsage: aios marketplace install <skill-id>\nExample: aios marketplace install ddd-expert")
 			}
 			allAgents, loadErr := agents.LoadAll()
 			if loadErr != nil {
@@ -468,6 +499,10 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 		_, _ = fmt.Fprintf(c.Out, "status: %s\nready: %t\nsync: %s\ntoken_store: %s\nworkspace: %s\n", h.Status, h.Ready, c.SyncState(), h.TokenStore, h.Workspace)
 		return nil
 	case "sync":
+		pg := newProgressWriter(c.Out)
+		if output != "json" {
+			pg.Start(fmt.Sprintf("Syncing skill from %s...", skillDir))
+		}
 		skillID, err := c.SyncSkill(ctx, domainskillsync.SyncSkillCommand{SkillDir: skillDir})
 		if err != nil {
 			return err
@@ -475,7 +510,7 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 		if output == "json" {
 			return writeJSON(map[string]any{"synced": true, "skill_id": skillID})
 		}
-		_, _ = fmt.Fprintf(c.Out, "sync completed for skill %s\n", skillID)
+		pg.Stop(fmt.Sprintf("✓ sync completed for skill %s", skillID))
 		return nil
 	case "sync-plan":
 		plan, err := c.SyncPlan(ctx, domainsyncplan.BuildSyncPlanCommand{SkillDir: skillDir})
@@ -504,6 +539,10 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 			return fmt.Errorf("unsupported mcp transport %q", mcpTransport)
 		}
 	case "test-skill":
+		pg := newProgressWriter(c.Out)
+		if output != "json" {
+			pg.Start(fmt.Sprintf("Running fixtures for %s...", skillDir))
+		}
 		result, err := c.TestSkill(ctx, domainskilltest.TestSkillCommand{SkillDir: skillDir})
 		if err != nil {
 			return err
@@ -530,18 +569,26 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 		}
 		return nil
 	case "init-skill":
+		pg := newProgressWriter(c.Out)
+		if output != "json" {
+			pg.Start(fmt.Sprintf("Creating skill scaffold at %s...", skillDir))
+		}
 		if err := c.InitSkill(skillDir); err != nil {
 			return err
 		}
 		if output == "json" {
 			return writeJSON(map[string]any{"initialized": true, "skill_dir": skillDir})
 		}
-		_, _ = fmt.Fprintf(c.Out, "initialized skill scaffold at %s\n", skillDir)
+		pg.Stop(fmt.Sprintf("✓ skill scaffold created at %s", skillDir))
 		return nil
 	case "help":
 		_, _ = fmt.Fprintln(c.Out, "commands: status | tray-status | version | doctor | list-clients | model-policy-packs | analytics-summary | analytics-record | analytics-trend | marketplace-publish --skill-dir <dir> | marketplace-list | marketplace-install --skill-dir <skill-id> | marketplace-matrix | audit-export [--skill-dir <output-file>] | audit-verify [--skill-dir <input-file>] | runtime-execution-report [--skill-dir <output-file>] | project-list | project-add --skill-dir <path> | project-remove --skill-dir <path-or-id> | project-inspect --skill-dir <path-or-id> | workspace-validate | workspace-plan | workspace-repair | tui | backup-configs | restore-configs [--skill-dir <backup-dir>] | export-status-report [--skill-dir <output-file>] | connect-google-drive | sync --skill-dir <dir> | uninstall-skill --skill-dir <dir> | sync-plan --skill-dir <dir> | test-skill --skill-dir <dir> | lint-skill --skill-dir <dir> | init-skill --skill-dir <dir> | package-skill --skill-dir <dir> | serve-mcp [--mcp-transport stdio|http|ws --mcp-addr :8080]")
 		return nil
 	case "lint-skill":
+		pg := newProgressWriter(c.Out)
+		if output != "json" {
+			pg.Start(fmt.Sprintf("Linting skill %s...", skillDir))
+		}
 		res, err := c.LintSkill(ctx, domainskilllint.LintSkillCommand{SkillDir: skillDir})
 		if err != nil {
 			return err
@@ -553,7 +600,7 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 			})
 		}
 		if res.Valid {
-			_, _ = fmt.Fprintln(c.Out, "lint: ok")
+			pg.Stop("✓ lint: ok")
 			return nil
 		}
 		for _, issue := range res.Issues {
@@ -574,7 +621,7 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 				return err
 			}
 			if !report.Overall {
-				return fmt.Errorf("doctor checks failed")
+				return fmt.Errorf("doctor checks failed\n\nRun 'aios doctor' to see which checks failed")
 			}
 			return nil
 		}
@@ -807,6 +854,10 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 	case "tui":
 		return c.RunTUI(ctx)
 	case "package-skill":
+		pg := newProgressWriter(c.Out)
+		if output != "json" {
+			pg.Start(fmt.Sprintf("Packaging skill %s...", skillDir))
+		}
 		result, err := c.PackageSkill(ctx, domainskillpackage.PackageSkillCommand{SkillDir: skillDir})
 		if err != nil {
 			return err
@@ -814,9 +865,13 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 		if output == "json" {
 			return writeJSON(map[string]string{"artifact": result.ArtifactPath})
 		}
-		_, _ = fmt.Fprintf(c.Out, "packaged skill: %s\n", result.ArtifactPath)
+		pg.Stop(fmt.Sprintf("✓ packaged skill: %s", result.ArtifactPath))
 		return nil
 	case "uninstall-skill":
+		pg := newProgressWriter(c.Out)
+		if output != "json" {
+			pg.Start(fmt.Sprintf("Uninstalling skill %s...", skillDir))
+		}
 		skillID, err := c.UninstallSkill(ctx, domainskilluninstall.UninstallSkillCommand{SkillDir: skillDir})
 		if err != nil {
 			return err
@@ -824,7 +879,7 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 		if output == "json" {
 			return writeJSON(map[string]string{"uninstalled": skillID})
 		}
-		_, _ = fmt.Fprintf(c.Out, "uninstalled skill: %s\n", skillID)
+		pg.Stop(fmt.Sprintf("✓ uninstalled skill: %s", skillID))
 		return nil
 	case "backup-configs":
 		path, err := c.BackupConfigs()
