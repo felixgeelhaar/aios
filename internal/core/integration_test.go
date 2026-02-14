@@ -11,6 +11,8 @@ import (
 	"github.com/felixgeelhaar/aios/internal/agents"
 	"github.com/felixgeelhaar/aios/internal/builder"
 	domainonboarding "github.com/felixgeelhaar/aios/internal/domain/onboarding"
+	domainskilllint "github.com/felixgeelhaar/aios/internal/domain/skilllint"
+	domainskillpackage "github.com/felixgeelhaar/aios/internal/domain/skillpackage"
 	aosmcp "github.com/felixgeelhaar/aios/internal/mcp"
 	"github.com/felixgeelhaar/aios/internal/runtime"
 	"github.com/felixgeelhaar/aios/internal/sync"
@@ -172,4 +174,110 @@ func TestOrgControlPlaneProjectInventoryAndWorkspaceLinksViaCLI(t *testing.T) {
 	if healthy, _ := validateAfter["healthy"].(bool); !healthy {
 		t.Fatalf("expected healthy workspace after repair: %#v", validateAfter)
 	}
+}
+
+// TestIntegrationSkillLifecycle tests the complete skill workflow using CLI functions
+func TestIntegrationSkillLifecycle(t *testing.T) {
+	root := t.TempDir()
+	skillDir := filepath.Join(root, "skills", "test-integration")
+
+	t.Setenv("AIOS_WORKSPACE_DIR", root)
+	t.Setenv("AIOS_PROJECT_DIR", root)
+
+	cfg := DefaultConfig()
+	cfg.WorkspaceDir = root
+	cfg.ProjectDir = root
+
+	cli := DefaultCLI(nil, cfg)
+	ctx := context.Background()
+
+	t.Run("init skill", func(t *testing.T) {
+		if err := cli.InitSkill(skillDir); err != nil {
+			t.Fatalf("init skill: %v", err)
+		}
+		if _, err := os.Stat(filepath.Join(skillDir, "skill.yaml")); err != nil {
+			t.Fatal("skill.yaml not created")
+		}
+	})
+
+	t.Run("lint skill passes", func(t *testing.T) {
+		res, err := cli.LintSkill(ctx, domainskilllint.LintSkillCommand{SkillDir: skillDir})
+		if err != nil {
+			t.Fatalf("lint: %v", err)
+		}
+		if !res.Valid {
+			t.Fatalf("lint failed: %v", res.Issues)
+		}
+	})
+
+	t.Run("package skill", func(t *testing.T) {
+		res, err := cli.PackageSkill(ctx, domainskillpackage.PackageSkillCommand{SkillDir: skillDir})
+		if err != nil {
+			t.Fatalf("package: %v", err)
+		}
+		if res.ArtifactPath == "" {
+			t.Fatal("artifact path is empty")
+		}
+		if _, err := os.Stat(res.ArtifactPath); err != nil {
+			t.Fatal("artifact not created")
+		}
+	})
+
+	t.Run("sync skill", func(t *testing.T) {
+		skillID, err := cli.SyncSkill(ctx, struct{ SkillDir string }{SkillDir: skillDir})
+		if err != nil {
+			t.Fatalf("sync: %v", err)
+		}
+		if skillID == "" {
+			t.Fatal("expected skill ID")
+		}
+
+		// Verify skill was installed
+		canonicalPath := filepath.Join(root, ".agents", "skills", skillID, "SKILL.md")
+		if _, err := os.Stat(canonicalPath); err != nil {
+			t.Fatalf("skill not synced to canonical location: %v", err)
+		}
+	})
+}
+
+// TestIntegrationMarketplaceWorkflow tests marketplace publish and install
+func TestIntegrationMarketplaceWorkflow(t *testing.T) {
+	root := t.TempDir()
+	skillDir := filepath.Join(root, "skills", "marketplace-test")
+
+	t.Setenv("AIOS_WORKSPACE_DIR", root)
+	t.Setenv("AIOS_PROJECT_DIR", root)
+
+	cfg := DefaultConfig()
+	cfg.WorkspaceDir = root
+	cfg.ProjectDir = root
+
+	cli := DefaultCLI(nil, cfg)
+	ctx := context.Background()
+
+	// First create and validate a skill
+	if err := cli.InitSkill(skillDir); err != nil {
+		t.Fatalf("init skill: %v", err)
+	}
+
+	t.Run("publish to marketplace", func(t *testing.T) {
+		res, err := cli.MarketplacePublish(ctx, skillDir)
+		if err != nil {
+			t.Fatalf("publish: %v", err)
+		}
+		if !res["published"].(bool) {
+			t.Fatal("expected published=true")
+		}
+	})
+
+	t.Run("list marketplace", func(t *testing.T) {
+		res, err := cli.MarketplaceList(ctx)
+		if err != nil {
+			t.Fatalf("list: %v", err)
+		}
+		listings, ok := res["listings"].([]any)
+		if !ok || len(listings) == 0 {
+			t.Log("warning: no marketplace listings")
+		}
+	})
 }

@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0.0",
+  "entries": [
+    {
+      "fingerprint": "1923ec4a9b39a7cc0ce197c6e5184e0a8b22f0da0f7fe0ee1f96ca345de62abf",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - high entropy from task descriptions",
+      "created_at": "2026-02-14T13:20:26.917835Z"
+    },
+    {
+      "fingerprint": "c2dd7e8aa676cb906004f662c5df50b30a943ce707a3f353f48894b3f2203251",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - high entropy from task descriptions",
+      "created_at": "2026-02-14T13:20:28.604512Z"
+    },
+    {
+      "fingerprint": "b06effb0f8f84a519a280f09a5f931bd9af4f957de6214e45e441fa9fcb263dc",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - high entropy from task descriptions",
+      "created_at": "2026-02-14T13:20:30.250517Z"
+    },
+    {
+      "fingerprint": "06d80a56d05fe3e362daa7b7749acc812ca3ea745cc507dedf320747c48886e9",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - high entropy from task descriptions",
+      "created_at": "2026-02-14T13:20:31.67776Z"
+    },
+    {
+      "fingerprint": "a57b82514d47c9d201334ee36464efa4366a6e453b2eb0e781f3586c413d354e",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - high entropy from task descriptions",
+      "created_at": "2026-02-14T13:20:33.465238Z"
+    },
+    {
+      "fingerprint": "6c7bd41c35533310c758b8629f3e83de8875bbdbe503619f8c1bfb8443c9819f",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - high entropy from task descriptions",
+      "created_at": "2026-02-14T13:20:34.754227Z"
+    },
+    {
+      "fingerprint": "55a54f7402c34b34921fb42e4475eb1efc0f90f5b934df2317aad39d2d2b4877",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:36.293646Z"
+    },
+    {
+      "fingerprint": "59d1488f77061323398f1a31601bb8674cea210f4341c563661179d987047769",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:38.321202Z"
+    },
+    {
+      "fingerprint": "fc489c543f84d7a75a2ea58ce5c913c708580432b10a8a825557e78a016476cd",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:39.902589Z"
+    },
+    {
+      "fingerprint": "3e7d7cfb4b0dee0781835c0881a4a3d8a73e7abc92757a675a9f02a166b22b58",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:41.993423Z"
+    },
+    {
+      "fingerprint": "bc1883f58d325f4e77b559e53599b3add1ee9652605231be102124f2471e3681",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:43.500575Z"
+    },
+    {
+      "fingerprint": "fe88de5b884ed058a5afe0b946bb20318f4c02a39187e0cca2b5877d2f21478c",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:45.335648Z"
+    },
+    {
+      "fingerprint": "a0c6959fffee3bf9ed2d15d6822aed700794f6f08ced92e197fb2f106d6214f0",
+      "rule_id": "SEC-161",
+      "file_path": ".roady/spec.yaml",
+      "severity": "medium",
+      "reason": "Roady-generated spec.yaml - high entropy from spec content",
+      "created_at": "2026-02-14T13:20:47.072019Z"
+    },
+    {
+      "fingerprint": "dc55a2f65559b08e8076a9216e645fe4a0081e23bab845471dd928ad8ac8671f",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - base64 encoded task data",
+      "created_at": "2026-02-14T13:20:48.853549Z"
+    },
+    {
+      "fingerprint": "6a8f00577876a565eb31da0872b18b432c1135ecbdebaac83bcbb7c3a6012238",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - base64 encoded task data",
+      "created_at": "2026-02-14T13:20:50.463122Z"
+    },
+    {
+      "fingerprint": "320fdd08c07799e0d14552dcfc72b80a2476121c7415b6500c00a72b60d7cda5",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - base64 encoded task data",
+      "created_at": "2026-02-14T13:20:52.119387Z"
+    },
+    {
+      "fingerprint": "4956a1605cbf64d50d0cf50c114cc33372d3761d7173e75baf4292f837a53d40",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - base64 encoded data",
+      "created_at": "2026-02-14T13:20:54.291475Z"
+    },
+    {
+      "fingerprint": "180f72b52f48bc3072ebcfd5225d0e63f0d2b25c23a498d7ef9de415a21c78aa",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - base64 encoded data",
+      "created_at": "2026-02-14T13:20:56.355926Z"
+    },
+    {
+      "fingerprint": "024665d27e7cba14c651b077e0e9385508303a0d0b7f8f246901243780812698",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - base64 encoded data",
+      "created_at": "2026-02-14T13:20:58.09456Z"
+    },
+    {
+      "fingerprint": "5a305bb0d78dff95258b563cec3a0366b059040a7b926ba540d634c5028492ea",
+      "rule_id": "SEC-162",
+      "file_path": ".roady/spec.yaml",
+      "severity": "medium",
+      "reason": "Roady-generated spec.yaml - base64 encoded data",
+      "created_at": "2026-02-14T13:20:59.433114Z"
+    },
+    {
+      "fingerprint": "a8739f02317e6e76eae7e3c9dc8cb8fc23bb067fe7f1e3428e65df74cf7e3dce",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task IDs",
+      "created_at": "2026-02-14T13:21:01.349909Z"
+    },
+    {
+      "fingerprint": "893e95fe23688ebcec6d17602ff3f0e908c86df5971f6ac90e521aaed4df8eeb",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:03.277555Z"
+    },
+    {
+      "fingerprint": "fde92fe40ed1239f830075c782c6c9567085c85d94870e0aa91877029387beb3",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:04.889158Z"
+    },
+    {
+      "fingerprint": "b238dcdc83868f9fcdbaded427c4a4f6d42a58f785c3cbc8258c9d140a5a75b9",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:08.631726Z"
+    },
+    {
+      "fingerprint": "d582db977111348704cfdde6c800802d05bb09d9ef4e14c61328adaf8071421e",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:10.094917Z"
+    },
+    {
+      "fingerprint": "66ff9849d2cfff486229933ef56478d1e74bfe78ced605fe4493cf83929ed3cc",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:11.702036Z"
+    },
+    {
+      "fingerprint": "a097ead85176552d723f180a5b32376a280773b239bbd463b0c70f74ea14652b",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task IDs",
+      "created_at": "2026-02-14T13:21:13.534539Z"
+    },
+    {
+      "fingerprint": "7e1325f1b39df7a04123ab331347517e28d62f3ee41b7d72f8e83a63ae8b6d0d",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:15.479857Z"
+    },
+    {
+      "fingerprint": "fe0e4a8080bc4e43ce64413730df1c4cc68e5520f4da6cdc2faac325137abb42",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:16.895975Z"
+    },
+    {
+      "fingerprint": "f7ece0a135cf9cefd2c8ff6ef8287c30d936a83c0e3cc4cb5434340883251dc7",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/plan.json",
+      "severity": "medium",
+      "reason": "Roady-generated plan.json - hex encoded task data",
+      "created_at": "2026-02-14T13:21:18.801366Z"
+    },
+    {
+      "fingerprint": "4ef032b046d25360e42eba50d1d28a6627257d33390f1eb516e8a1f4eb8afb14",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:20.512917Z"
+    },
+    {
+      "fingerprint": "fc312858d024279f41e83b1b657d28b9b3bd23a7d6e5f149d310ebafff8aa81d",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:22.661646Z"
+    },
+    {
+      "fingerprint": "67ea768dfa2601192e8a4f0368aac2645aacac497562abb7ca05354f3ef26bef",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:24.211499Z"
+    },
+    {
+      "fingerprint": "d5b4b7342464bb46842e5dce9787da7e4e18d2e0f4536f0444eb6141edcc9d3a",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:25.847051Z"
+    },
+    {
+      "fingerprint": "1e0ae57e01fc6bce5e7e87242d116a241a5a6aa04f68a97a09697312d64fa2ed",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:27.68813Z"
+    },
+    {
+      "fingerprint": "68513e3be39711ca3d06b4b241fcbe94be8bd6f6efb5a1964fc59284682ac77f",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:29.536667Z"
+    },
+    {
+      "fingerprint": "f070df7a18f160d071391b7eeaeefc6cb2b040457fe5be75bc954258334a945d",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:30.839752Z"
+    },
+    {
+      "fingerprint": "810937197fbf20cd9d17f044ed35ed1e142b99d76f281510c9014cacf7e03e59",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:32.175749Z"
+    },
+    {
+      "fingerprint": "7021c251f7782234ff713c8b3643f22205ec00d8b0544c603859e3fe1c66c430",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.lock.json",
+      "severity": "medium",
+      "reason": "Roady-generated spec.lock.json - hex encoded data",
+      "created_at": "2026-02-14T13:21:33.898466Z"
+    },
+    {
+      "fingerprint": "32c521b0466a0a4beb8a611f590a6eea9200865f065b790239b70c9907c18f4f",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.yaml",
+      "severity": "medium",
+      "reason": "Roady-generated spec.yaml - hex encoded data",
+      "created_at": "2026-02-14T13:21:35.532884Z"
+    },
+    {
+      "fingerprint": "8f3951d5a36ff8062c2a6feffc938e524a758ae4d9572e8418c733d75e9d4d60",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/spec.yaml",
+      "severity": "medium",
+      "reason": "Roady-generated spec.yaml - hex encoded data",
+      "created_at": "2026-02-14T13:21:36.762716Z"
+    },
+    {
+      "fingerprint": "4276c8dab1a71274f0731f630b9d9153ab354bdc106652b82e8d93a54f0a7fc6",
+      "rule_id": "SEC-163",
+      "file_path": ".roady/state.json",
+      "severity": "medium",
+      "reason": "Roady-generated state.json - hex encoded state data",
+      "created_at": "2026-02-14T13:21:38.241807Z"
+    }
+  ]
+}
