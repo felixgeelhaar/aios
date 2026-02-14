@@ -1,0 +1,831 @@
+{
+  "id": "analyzed-spec",
+  "title": "CLI Usage",
+  "description": "This project standardizes on Felix Geelhaar ecosystem packages where applicable.",
+  "features": [
+    {
+      "id": "local-runtime-foundation",
+      "title": "Local Runtime Foundation",
+      "description": "Build local-first tray/runtime in Go with local registry, OAuth connector setup, secure token storage, Claude Desktop integration, and baseline logging.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "skill-artifact-\u0026-execution-model",
+      "title": "Skill Artifact \u0026 Execution Model",
+      "description": "Define installable skill artifacts with metadata, input/output schemas, guardrails, fixtures, and execution validation with suggest-mode default.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "quick-skill-builder",
+      "title": "Quick Skill Builder",
+      "description": "Ship wizard-based builder to generate production-ready skills without JSON editing, including schema generation and fixture validation.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "sync-engine-\u0026-drift-protection",
+      "title": "Sync Engine \u0026 Drift Protection",
+      "description": "Implement file watchers, schema normalization, auto-repair, and parity enforcement across client config directories.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cursor-adapter",
+      "title": "Cursor Adapter",
+      "description": "Add Cursor MCP adapter and schema translation so the same skill works consistently in Claude Desktop and Cursor.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cloud-skill-registry",
+      "title": "Cloud Skill Registry",
+      "description": "Provide hosted registry with publish/install/versioning plus signing and verification workflows for team distribution.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "bundles-\u0026-rollout-controls",
+      "title": "Bundles \u0026 Rollout Controls",
+      "description": "Support department/team bundles, staged rollout, rollback, and version enforcement controls.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "rbac-\u0026-governance-controls",
+      "title": "RBAC \u0026 Governance Controls",
+      "description": "Introduce role-based publishing, connector/scope restrictions, approval workflows, and audit logging.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "windsurf-\u0026-cli-mode",
+      "title": "Windsurf \u0026 CLI Mode",
+      "description": "Add Windsurf client adapter and headless CLI mode for CI and developer automation.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "model-routing-abstraction",
+      "title": "Model Routing Abstraction",
+      "description": "Enable transparent multi-model execution with policy-based routing, fallback handling, and cost tracking.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "policy-engine",
+      "title": "Policy Engine",
+      "description": "Implement prompt-injection safeguards, redaction, context classification, and enforceable guardrail policies.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "analytics-\u0026-observability-platform",
+      "title": "Analytics \u0026 Observability Platform",
+      "description": "Deliver usage analytics, execution success metrics, adoption tracking, and drift trend reporting dashboards.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "marketplace-ecosystem",
+      "title": "Marketplace Ecosystem",
+      "description": "Provide private/public skill registries, verification badges, and compatibility metadata for external distribution.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "os-keychain-token-store",
+      "title": "OS Keychain Token Store",
+      "description": "Replace in-memory token storage with OS keychain/credential manager-backed secure storage adapter.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "real-client-sync-installers",
+      "title": "Real Client Sync Installers",
+      "description": "Implement real install/sync behavior for Claude, Cursor, and Windsurf adapters and wire them through the sync engine.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "skill-schema-validation-pipeline",
+      "title": "Skill Schema Validation Pipeline",
+      "description": "Parse and validate skill.yaml and JSON schemas with strict checks before install or execution.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-runtime-execution-integration",
+      "title": "MCP Runtime Execution Integration",
+      "description": "Expose runtime and sync operations through MCP tools and add integration tests for end-to-end task execution paths.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "persistent-registry-and-governance-enforcement",
+      "title": "Persistent Registry and Governance Enforcement",
+      "description": "Persist registry, rollout, and governance state and enforce RBAC at publish/install time.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "ci-quality-and-security-gates",
+      "title": "CI Quality and Security Gates",
+      "description": "Add CI workflows for go test, coverage threshold, and security scanning before merge.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "production-connector-security",
+      "title": "Production Connector Security",
+      "description": "Implement OS keychain-backed token storage and remove in-memory token storage from runtime path.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "operational-cli-and-mcp-serve",
+      "title": "Operational CLI and MCP Serve",
+      "description": "Implement practical CLI commands for status/sync and an MCP serve command that starts the local MCP server over stdio.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "persistent-rollout-plans",
+      "title": "Persistent Rollout Plans",
+      "description": "Persist rollout plans to disk and support loading/listing for repeatable team deployments.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "end-to-end-integration-tests",
+      "title": "End-to-End Integration Tests",
+      "description": "Add integration tests covering skill build-\u003einstall-\u003eruntime-\u003eMCP tool registration and sync state transitions.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "configurable-mcp-transport",
+      "title": "Configurable MCP Transport",
+      "description": "Support configurable MCP transport selection (stdio/http/ws) and bind address through CLI flags.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "actionable-cli-sync-command",
+      "title": "Actionable CLI Sync Command",
+      "description": "Implement sync command to install a skill across Claude/Cursor/Windsurf adapters with explicit target and skill id inputs.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "runtime-health-reporting",
+      "title": "Runtime Health Reporting",
+      "description": "Add runtime health/readiness report APIs and expose them via CLI status output.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "config-driven-cli-runtime",
+      "title": "Config-Driven CLI Runtime",
+      "description": "Load runtime and client paths from environment variables to support local/dev/prod execution without code edits.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "validated-skill-sync-flow",
+      "title": "Validated Skill Sync Flow",
+      "description": "Require sync to read a skill artifact directory, validate skill.yaml and schemas, then install to all clients.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-status-resources",
+      "title": "MCP Status Resources",
+      "description": "Expose runtime health and sync status as MCP resources for agents to inspect state without tool invocation.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "skill-fixture-test-runner",
+      "title": "Skill Fixture Test Runner",
+      "description": "Add a runner that validates skill fixtures/expected outputs and expose it via CLI command for local quality checks.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "sync-dry-run-planning",
+      "title": "Sync Dry-Run Planning",
+      "description": "Add a dry-run mode that shows what files/configs would be written for sync without mutating client configs.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-skill-validation-tool",
+      "title": "MCP Skill Validation Tool",
+      "description": "Expose skill directory validation as an MCP tool so agents can preflight skills before sync.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-skill-scaffold-command",
+      "title": "CLI Skill Scaffold Command",
+      "description": "Add init-skill CLI command to scaffold a new skill directory using the quick builder.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-help-surface",
+      "title": "CLI Help Surface",
+      "description": "Add explicit help command that prints available CLI commands and required flags.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-fixture-runner-tool",
+      "title": "MCP Fixture Runner Tool",
+      "description": "Expose running skill fixture suites via MCP tool for agent-driven quality checks.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-version-and-build-metadata",
+      "title": "CLI Version and Build Metadata",
+      "description": "Add version command and injectable build metadata surfaced via CLI and MCP resources.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "skill-lint-command",
+      "title": "Skill Lint Command",
+      "description": "Add lint-skill command with strict structural checks beyond schema validation (required tests and prompt file).\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-command-reference-resource",
+      "title": "MCP Command Reference Resource",
+      "description": "Expose CLI command reference as MCP resource for discoverability by agents.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-json-output-mode",
+      "title": "CLI JSON Output Mode",
+      "description": "Support --output json for status, sync-plan, and version commands for automation-friendly parsing.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-build-info-resource",
+      "title": "MCP Build Info Resource",
+      "description": "Expose build/version metadata as an MCP resource for remote inspection.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "lint-fixture-pair-consistency",
+      "title": "Lint Fixture Pair Consistency",
+      "description": "Extend lint-skill to validate fixture/expected file pairing and fail on missing counterparts.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-doctor-command",
+      "title": "CLI Doctor Command",
+      "description": "Add doctor command to check workspace and client config directory readiness and report issues.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-doctor-tool",
+      "title": "MCP Doctor Tool",
+      "description": "Expose readiness diagnostics via MCP tool for agent-accessible health triage.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-usage-documentation",
+      "title": "CLI Usage Documentation",
+      "description": "---",
+      "requirements": []
+    },
+    {
+      "id": "tracked-projects-and-folders-inventory",
+      "title": "Tracked Projects and Folders Inventory",
+      "description": "Provide a persistent inventory of tracked projects/folders across local workspaces so teams can see where skills are installed and detect unmanaged repos.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "workspace-and-symlink-orchestration",
+      "title": "Workspace and Symlink Orchestration",
+      "description": "Implement workspace directory and symlink orchestration for multi-agent setups, including validation and repair flows for broken links.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "tui-operations-console",
+      "title": "TUI Operations Console",
+      "description": "Add a terminal UI for team/project-level skill operations: browse tracked projects, inspect status, run sync/uninstall, and triage drift.\n\nAdd docs/cli.md documenting commands, flags, and JSON output examples.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-docs-resources",
+      "title": "MCP Docs Resources",
+      "description": "Expose project docs via MCP resources so agents can read core repository documentation through the MCP server.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-client-inventory-command",
+      "title": "CLI Client Inventory Command",
+      "description": "Add list-clients command to report configured client directories and installed skill artifacts per client.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "skill-package-command",
+      "title": "Skill Package Command",
+      "description": "Add package-skill command to create a distributable zip artifact from a validated skill directory.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-uninstall-skill-command",
+      "title": "CLI Uninstall Skill Command",
+      "description": "Add uninstall-skill command to remove installed skill artifacts from Claude/Cursor/Windsurf client configs.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-package-skill-tool",
+      "title": "MCP Package Skill Tool",
+      "description": "Expose skill packaging via MCP tool so agents can create distributable artifacts.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-usage-documentation",
+      "title": "MCP Usage Documentation",
+      "description": "Add docs/mcp.md covering tools/resources and examples for local usage.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-backup-client-configs",
+      "title": "CLI Backup Client Configs",
+      "description": "Add backup-configs command to snapshot Claude/Cursor/Windsurf config directories into a timestamped backup folder.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-uninstall-skill-tool",
+      "title": "MCP Uninstall Skill Tool",
+      "description": "Expose uninstalling a skill from all clients via MCP tool using the same validated skill directory input.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "troubleshooting-documentation",
+      "title": "Troubleshooting Documentation",
+      "description": "Add docs/troubleshooting.md with common command failures and recovery steps.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-restore-client-configs",
+      "title": "CLI Restore Client Configs",
+      "description": "Add restore-configs command to restore client directories from a backup snapshot path.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "mcp-docs-index-resource",
+      "title": "MCP Docs Index Resource",
+      "description": "Expose docs index resource listing available docs names and URIs.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "cli-export-status-report",
+      "title": "CLI Export Status Report",
+      "description": "Add export-report command to write current status/doctor/build info to a markdown report file.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "dependency-integration-matrix",
+      "title": "Dependency Integration Matrix",
+      "description": "Document where bolt, fortify, statekit, and mcp-go are used, and clarify that mcp-go is the maintained MCP module.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-task-lifecycle-script",
+      "title": "Roady Task Lifecycle Script",
+      "description": "Add a helper script that wraps start/complete/verify/status and drift checks for Roady tasks.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-docs-sync-script",
+      "title": "Roady Docs Sync Script",
+      "description": "Add a helper script to analyze docs, reconcile spec, regenerate plan, and show status.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-helper-script-smoke-tests",
+      "title": "Roady Helper Script Smoke Tests",
+      "description": "Add a CI-friendly smoke test script that validates roady helper scripts syntax and help output.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-command-catalog",
+      "title": "Roady Command Catalog",
+      "description": "Add a concise command catalog for roady workflows and local helper scripts.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-preflight-script",
+      "title": "Roady Preflight Script",
+      "description": "Add a preflight script that runs helper smoke tests plus roady status/drift/debt checks before work.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-bootstrap-script",
+      "title": "Roady Bootstrap Script",
+      "description": "Add a bootstrap helper that runs preflight, docs sync, and final status checks in sequence.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "roady-ci-workflow",
+      "title": "Roady CI Workflow",
+      "description": "Add a CI workflow that runs Roady helper smoke tests and preflight checks on push and pull requests.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h1-local-oauth-callback-server",
+      "title": "H1 Local OAuth Callback Server",
+      "description": "Implement a local OAuth callback HTTP server for connector auth with state validation and callback result handling.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h1-file-watch-drift-monitor",
+      "title": "H1 File Watch Drift Monitor",
+      "description": "Implement a polling file watch monitor that detects local config drift and invokes auto-repair hooks.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h1-oauth-callback-runtime",
+      "title": "H1 OAuth Callback Runtime",
+      "description": "Implement local OAuth callback server utilities with state validation and code capture for connector auth.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h1-google-drive-connector-cli-flow",
+      "title": "H1 Google Drive Connector CLI Flow",
+      "description": "Add connect-google-drive CLI command using OAuth callback runtime or token override and persist token via runtime connector path.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h1-tray-skills-and-connections-surface",
+      "title": "H1 Tray Skills and Connections Surface",
+      "description": "Implement tray state persistence and CLI accessors for skills and connector status to provide a basic tray-facing UI surface.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h1-onboarding-path-integration-test",
+      "title": "H1 Onboarding Path Integration Test",
+      "description": "Add an integration test that simulates core H1 onboarding: skill creation, google drive connect, sync install, and tray status verification.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-strict-ddd-boundary-enforcement",
+      "title": "H3 Strict DDD Boundary Enforcement",
+      "description": "Refactor remaining non-DDD modules so domain, application, and adapter layers are explicit and independently testable.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-model-router-policy-packs",
+      "title": "H3 Model Router Policy Packs",
+      "description": "Add policy-pack driven model routing profiles (cost-first, quality-first, balanced) with CLI and MCP inspection outputs.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-policy-redaction-runtime-hooks",
+      "title": "H3 Policy Redaction Runtime Hooks",
+      "description": "Integrate runtime redaction and prompt-injection checks as mandatory pre-execution hooks with structured violation telemetry.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-analytics-export-surfaces",
+      "title": "H3 Analytics Export Surfaces",
+      "description": "Add CLI and MCP analytics summaries for skill usage, success rates, and drift trends with machine-readable JSON output.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-marketplace-compatibility-validation",
+      "title": "H3 Marketplace Compatibility Validation",
+      "description": "Implement compatibility contract checks and verification badge criteria validation before publish/install flows.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-policy-aware-runtime-execution",
+      "title": "H3 Policy-Aware Runtime Execution",
+      "description": "Apply model policy-pack routing and policy hooks directly in runtime execution (not only MCP entrypoints), with deterministic behavior and tests.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-analytics-persistence-and-trend-report",
+      "title": "H3 Analytics Persistence and Trend Report",
+      "description": "Persist analytics snapshots locally and add trend reports for success/drift over time via CLI and MCP resources.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-marketplace-publish-and-install-cli/mcp",
+      "title": "H3 Marketplace Publish and Install CLI/MCP",
+      "description": "Add first-class publish/install/list marketplace operations over CLI and MCP, enforcing compatibility and verification contracts.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-governance-audit-export",
+      "title": "H3 Governance Audit Export",
+      "description": "Export signed audit bundles for policy decisions, rollout decisions, and marketplace verification outcomes.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-governance-audit-verify",
+      "title": "H3 Governance Audit Verify",
+      "description": "Add signature verification for governance audit bundles and expose verify operations in CLI and MCP.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-marketplace-compatibility-matrix-resource",
+      "title": "H3 Marketplace Compatibility Matrix Resource",
+      "description": "Expose compatibility matrix summaries (skill-by-client support and verification state) as MCP resources and CLI JSON output.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "h3-runtime-execution-report-export",
+      "title": "H3 Runtime Execution Report Export",
+      "description": "Export structured runtime execution reports (model, policy telemetry, outcomes) for post-run review and automation.\n\n---",
+      "requirements": []
+    },
+    {
+      "id": "global-flags",
+      "title": "Global Flags",
+      "description": "- `--mode tray|cli` (default `tray`)\n- `--command \u003cname\u003e` (CLI mode only)\n- `--skill-dir \u003cdir\u003e` for skill commands, and as optional path for `restore-configs` / `export-status-report`\n- `--mcp-transport stdio|http|ws` and `--mcp-addr :8080` for `serve-mcp`\n- `--output text|json` for machine-readable responses\n- OAuth env overrides for `connect-google-drive`:\n- `AIOS_OAUTH_TOKEN` bypasses callback and uses the provided token/code directly\n- `AIOS_OAUTH_STATE` sets expected callback state (default `aios`)\n- `AIOS_OAUTH_TIMEOUT_SEC` sets callback wait timeout (default `120`)",
+      "requirements": []
+    },
+    {
+      "id": "commands",
+      "title": "Commands",
+      "description": "- `status`: show runtime status and sync state\n- `tray-status`: show tray-facing skills + connections state\n- `version`: show version, commit, build date\n- `doctor`: run readiness checks for workspace/client dirs\n- `model-policy-packs`: inspect available model routing policy packs (`cost-first`, `quality-first`, `balanced`)\n- `analytics-summary`: export tracked project + workspace link summary in text or JSON\n- `analytics-record`: persist one analytics snapshot into `workspace/state/analytics-history.json`\n- `analytics-trend`: show trend summary from persisted analytics snapshots\n- `marketplace-publish`: publish a skill directory to local marketplace registry\n- `marketplace-list`: list marketplace listings from local registry\n- `marketplace-install`: install a marketplace skill by id (`--skill-dir \u003cskill-id\u003e`)\n- `audit-export`: export signed governance audit bundle (`--skill-dir \u003coutput-file\u003e` optional)\n- `project-list`: list tracked projects/folders inventory\n- `project-add`: track a project folder (`--skill-dir \u003cpath\u003e`)\n- `project-remove`: untrack by path or id (`--skill-dir \u003cpath-or-id\u003e`)\n- `project-inspect`: inspect one tracked project by path or id (`--skill-dir \u003cpath-or-id\u003e`)\n- `workspace-validate`: validate managed workspace symlinks for tracked projects\n- `workspace-plan`: show create/repair/skip actions for workspace symlinks\n- `workspace-repair`: apply create/repair actions for workspace symlinks\n- `tui`: open the terminal operations console (projects + workspace link operations)\n- `sync`: validate and install skill into all clients\n- `backup-configs`: snapshot Claude/Cursor/Windsurf config directories into `workspace/backups/\u003ctimestamp\u003e`\n- `restore-configs`: restore configs from latest backup (or `--skill-dir \u003cbackup-dir\u003e`)\n- `export-status-report`: write markdown readiness report (default `workspace/status-report.md` or `--skill-dir \u003coutput-file\u003e`)\n- `connect-google-drive`: connect Google Drive via local OAuth callback or token override\n- `sync-plan`: dry-run listing of files that would be written\n- `test-skill`: run fixture suite in `\u003cskill-dir\u003e/tests`\n- `lint-skill`: run strict lint checks for skill structure and fixture pairing\n- `init-skill`: scaffold a skill directory\n- `serve-mcp`: run MCP server\n- `help`: print command reference",
+      "requirements": []
+    },
+    {
+      "id": "json-examples",
+      "title": "JSON Examples",
+      "description": "```bash\n./aios --mode cli --command status --output json\n./aios --mode cli --command sync-plan --skill-dir ./my-skill --output json\n./aios --mode cli --command version --output json\n./aios --mode cli --command restore-configs --output json\n./aios --mode cli --command export-status-report --skill-dir ./status.md --output json\nAIOS_OAUTH_TOKEN=demo-token ./aios --mode cli --command connect-google-drive --output json\n./aios --mode cli --command project-add --skill-dir ./repo-a --output json\n./aios --mode cli --command workspace-validate --output json\n./aios --mode cli --command workspace-repair --output json\n./aios --mode cli --command analytics-summary --output json\n./aios --mode cli --command analytics-record --output json\n./aios --mode cli --command analytics-trend --output json\n./aios --mode cli --command marketplace-publish --skill-dir ./my-skill --output json\n./aios --mode cli --command marketplace-list --output json\n./aios --mode cli --command marketplace-install --skill-dir roadmap-reader --output json\n./aios --mode cli --command audit-export --output json\n```",
+      "requirements": []
+    },
+    {
+      "id": "notes",
+      "title": "Notes",
+      "description": "- MCP integration is implemented with `mcp-go` in this repository.\n- `github.com/felixgeelhaar/mcp` is not currently available as a Go module; use `mcp-go` for all MCP work unless a maintained replacement is published.\n\n---\n\n- If `task start` fails with plan approval errors, run `roady plan approve` and retry.\n- Keep evidence strings short and concrete (for example: `go test ./... pass`).\n- CI runs Roady checks via `.github/workflows/ci.yml` (`test_roady_helpers.sh` and `roady_preflight.sh`).",
+      "requirements": []
+    },
+    {
+      "id": "update-rule",
+      "title": "Update Rule",
+      "description": "When adding infrastructure-level functionality, check this matrix first and prefer the listed package before introducing alternatives.",
+      "requirements": []
+    },
+    {
+      "id": "run-mcp-server",
+      "title": "Run MCP Server",
+      "description": "```bash\n./aios --mode cli --command serve-mcp --mcp-transport stdio\n./aios --mode cli --command serve-mcp --mcp-transport http --mcp-addr :8080\n```",
+      "requirements": []
+    },
+    {
+      "id": "available-tools",
+      "title": "Available Tools",
+      "description": "- `evaluate_policy`\n- `execute_skill`\n- `sync_state`\n- `validate_skill_dir`\n- `run_fixture_suite`\n- `doctor`\n- `model_policy_packs`\n- `analytics_summary`\n- `marketplace_publish`\n- `marketplace_list`\n- `marketplace_install`\n- `governance_audit_export`\n- `package_skill`\n- `uninstall_skill`\n- `project_list`\n- `project_track`\n- `project_untrack`\n- `project_inspect`\n- `workspace_validate`\n- `workspace_plan`\n- `workspace_repair`",
+      "requirements": []
+    },
+    {
+      "id": "available-resources",
+      "title": "Available Resources",
+      "description": "- `aios://status/health`\n- `aios://status/sync`\n- `aios://status/build`\n- `aios://projects/inventory`\n- `aios://workspace/links`\n- `aios://analytics/trend`\n- `aios://help/commands`\n- `docs://index`\n- `docs://{name}` (e.g. `docs://prd`, `docs://tdd`, `docs://cli`)",
+      "requirements": []
+    },
+    {
+      "id": "example-mcp-operations",
+      "title": "Example MCP Operations",
+      "description": "- Validate and package a skill directory:\n1. Call `validate_skill_dir` with `{\"skill_dir\":\"./my-skill\"}`.\n2. Call `package_skill` with `{\"skill_dir\":\"./my-skill\"}`.\n- Execute with policy hooks:\n- Call `execute_skill` with `{\"id\":\"roadmap-reader\",\"version\":\"0.1.0\",\"input\":{\"query\":\"...\"}}`.\n- Response includes `policy_telemetry` (`violations`, `redactions`, `blocked`).\n- Run fixture tests via MCP:\n- Call `run_fixture_suite` with `{\"skill_dir\":\"./my-skill\"}`.\n- Inspect model routing policy packs:\n- Call `model_policy_packs` with `{}`.\n- Read analytics summary:\n- Call `analytics_summary` with `{}`.\n- Publish and install marketplace skills:\n1. Call `marketplace_publish` with `{\"skill_dir\":\"./my-skill\"}`.\n2. Call `marketplace_list` with `{}`.\n3. Call `marketplace_install` with `{\"skill_id\":\"roadmap-reader\"}`.\n- Export signed governance audit bundle:\n- Call `governance_audit_export` with `{}` (or `{\"output\":\"./audit.json\"}`).\n- Track and repair project workspace links:\n1. Call `project_track` with `{\"path\":\"./repo-a\"}`.\n2. Call `project_inspect` with `{\"selector\":\"./repo-a\"}`.\n3. Call `workspace_validate` with `{}`.\n4. Call `workspace_plan` with `{}`.\n5. Call `workspace_repair` with `{}`.\n\n- `dependency-matrix`: dependency usage and package standards",
+      "requirements": []
+    },
+    {
+      "id": "daily-flow",
+      "title": "Daily Flow",
+      "description": "```bash\nroady status\nroady task ready\nroady drift detect\n```",
+      "requirements": []
+    },
+    {
+      "id": "spec-and-plan",
+      "title": "Spec and Plan",
+      "description": "```bash\nroady spec add \"Feature Name\" \"Description\"\nroady spec analyze docs --reconcile\nroady plan generate\nroady plan approve\n```",
+      "requirements": []
+    },
+    {
+      "id": "task-lifecycle",
+      "title": "Task Lifecycle",
+      "description": "```bash\nroady task start \u003ctask-id\u003e\nroady task complete \u003ctask-id\u003e -e \"implemented\"\nroady task verify \u003ctask-id\u003e -e \"tests passed\"\n```",
+      "requirements": []
+    },
+    {
+      "id": "helper-scripts",
+      "title": "Helper Scripts",
+      "description": "```bash\nbash ci/roady_task.sh ready\nbash ci/roady_task.sh cycle \u003ctask-id\u003e \"implemented + tests passed\"\nbash ci/roady_docs_sync.sh\nbash ci/roady_docs_sync.sh docs --analyze\nbash ci/test_roady_helpers.sh\nbash ci/roady_preflight.sh\nbash ci/roady_bootstrap.sh\nbash ci/roady_bootstrap.sh docs --analyze\n```",
+      "requirements": []
+    },
+    {
+      "id": "diagnostics",
+      "title": "Diagnostics",
+      "description": "```bash\nroady debt summary\nroady debt report\nroady drift detect\n```",
+      "requirements": []
+    },
+    {
+      "id": "start-roady-mcp",
+      "title": "Start Roady MCP",
+      "description": "Run Roady as an MCP server for local tools/agents:\n\n```bash\nroady mcp --transport stdio\n```\n\nOptional network transports:\n\n```bash\nroady mcp --transport http --addr :8080\nroady mcp --transport ws --addr :8080\n```",
+      "requirements": []
+    },
+    {
+      "id": "generate-tasks-from-docs",
+      "title": "Generate Tasks from Docs",
+      "description": "Use Roady spec features as the source of truth, then generate tasks:\n\n```bash\nroady spec add \"Feature Name\" \"Short feature description\"\nroady plan generate\nroady status\n```\n\nIf docs are highly structured with feature-style sections, try:\n\n```bash\nroady spec analyze docs --reconcile\n```\n\nIf analysis cannot infer features, use explicit `roady spec add` entries.\n\nOr run the helper script to perform analyze + plan generate + approve + status:\n\n```bash\nci/roady_docs_sync.sh\nci/roady_docs_sync.sh docs --analyze\n```",
+      "requirements": []
+    },
+    {
+      "id": "keep-todo-list-accurate",
+      "title": "Keep Todo List Accurate",
+      "description": "During implementation:\n\n```bash\nroady task start \u003ctask-id\u003e\nroady task complete \u003ctask-id\u003e\nroady task verify \u003ctask-id\u003e -e \"evidence\"\n```\n\nOr use the helper script to enforce a consistent lifecycle:\n\n```bash\nci/roady_task.sh ready\nci/roady_task.sh start \u003ctask-id\u003e\nci/roady_task.sh cycle \u003ctask-id\u003e \"implemented + go test ./... pass\"\n```\n\nSanity checks:\n\n```bash\nroady drift detect\nroady status\n```\n\nHelper script smoke tests:\n\n```bash\nbash ci/test_roady_helpers.sh\n```",
+      "requirements": []
+    },
+    {
+      "id": "`sync`-fails-with-`skill-dir-is-required`",
+      "title": "`sync` fails with `skill-dir is required`",
+      "description": "Cause: `--skill-dir` was not provided.\nFix:\n```bash\n./aios --mode cli --command sync --skill-dir ./my-skill\n```",
+      "requirements": []
+    },
+    {
+      "id": "`lint-skill`-reports-missing-fixture-pair",
+      "title": "`lint-skill` reports missing fixture pair",
+      "description": "Cause: a `fixture_*.json` file does not have matching `expected_*.json` (or vice versa).\nFix: ensure matching suffixes in `tests/`.",
+      "requirements": []
+    },
+    {
+      "id": "`serve-mcp`-fails-on-http/ws",
+      "title": "`serve-mcp` fails on HTTP/WS",
+      "description": "Cause: address is in use or invalid transport value.\nFix:\n```bash\n./aios --mode cli --command serve-mcp --mcp-transport http --mcp-addr :8081\n```",
+      "requirements": []
+    },
+    {
+      "id": "`doctor`-reports-failed-checks",
+      "title": "`doctor` reports failed checks",
+      "description": "Cause: CLI cannot create or access workspace/client paths.\nFix: set environment overrides and re-run:\n```bash\nexport AIOS_WORKSPACE_DIR=\"$PWD/.aios\"\n./aios --mode cli --command doctor\n```",
+      "requirements": []
+    },
+    {
+      "id": "`package-skill`-fails",
+      "title": "`package-skill` fails",
+      "description": "Cause: invalid `skill.yaml` or JSON schema files.\nFix:\n1. Run `lint-skill`.\n2. Run `test-skill`.\n3. Re-run `package-skill`.",
+      "requirements": []
+    },
+    {
+      "id": "`connect-google-drive`-times-out",
+      "title": "`connect-google-drive` times out",
+      "description": "Cause: no OAuth callback was received before timeout.\nFix:\n1. Increase timeout: `AIOS_OAUTH_TIMEOUT_SEC=300`.\n2. Confirm callback state matches `AIOS_OAUTH_STATE`.\n3. For local testing, bypass callback with `AIOS_OAUTH_TOKEN=\u003ctoken\u003e`.",
+      "requirements": []
+    },
+    {
+      "id": "h1-local-kernel-scope",
+      "title": "H1 Local Kernel Scope",
+      "description": "Horizon 1 (0-4 months): Local-first runtime with skill artifacts, OAuth connectors, sync engine, drift repair, CLI + MCP surface. Includes: tray runtime, skill model, quick builder, sync engine, drift protection, Claude/Cursor adapters, fixture runner, linting, doctor, health reporting, backup/restore, JSON output mode, MCP serve. Exit criteria: onboarding \u003c 15 min, zero JSON editing, drift auto-resolve \u003e= 90%, skill success rate \u003e= 98%, connector bind \u003e 95%.",
+      "requirements": []
+    },
+    {
+      "id": "h2-organizational-control-plane-scope",
+      "title": "H2 Organizational Control Plane Scope",
+      "description": "Horizon 2 (4-12 months): Team-wide skill distribution and version control. Includes: cloud skill registry, publish/install workflows, signing and verification, bundles and rollout controls, RBAC and governance, audit logging, Windsurf adapter, CLI headless mode, tracked project inventory, workspace orchestration, TUI operations console. Exit criteria: \u003e= 3 teams using shared skills, org-wide rollout achieved, admin approval workflow functioning, version enforcement stable.",
+      "requirements": []
+    },
+    {
+      "id": "h3-ai-os-platform-scope",
+      "title": "H3 AI OS Platform Scope",
+      "description": "Horizon 3 (12-24 months): Full AI control layer for organizations. Includes: model routing abstraction with policy packs, policy engine (prompt injection, redaction, context classification), analytics and observability platform, marketplace ecosystem (private/public registries, verification badges), governance audit export and verification, compatibility matrix, runtime execution report export. Exit criteria: policy enforcement coverage, audit completeness, enterprise adoption metrics, external skill developer publishes verified skill.",
+      "requirements": []
+    },
+    {
+      "id": "h1-non-goals",
+      "title": "H1 Non-Goals",
+      "description": "Explicit v1 scope exclusions per PRD and TDD. NOT in scope for H1: no cloud registry, no org sharing, no RBAC, no marketplace, no policy engine, no hosted runtime, no advanced workflow graph builder, no centralized multi-tenant control plane, no model routing. These are deferred to H2/H3. Existing experimental implementations of these capabilities are not production-committed for H1.",
+      "requirements": []
+    },
+    {
+      "id": "security-invariants",
+      "title": "Security Invariants",
+      "description": "Cross-cutting security requirements enforced across all horizons. No credentials embedded in skill artifacts - runtime rejects skills containing raw tokens, OAuth client secrets, or private keys. All connector tokens must use OS keychain adapter (macOS Keychain, Windows Credential Manager). Least-privilege connector scopes enforced at binding time. Policy hooks must run before model execution when enabled. No plaintext tokens written to disk. Skills must declare required scopes explicitly. Token expiration must be monitored and surfaced.",
+      "requirements": []
+    },
+    {
+      "id": "cli-contract-guarantees",
+      "title": "CLI Contract Guarantees",
+      "description": "All CLI commands must: support --output json with deterministic JSON schema, exit code 0 on success, exit non-zero on validation failure or error, produce structured error messages in JSON mode, support --mode cli for headless operation. Commands must not require interactive input when run with --mode cli. Flags must be validated before execution begins. Unknown flags must produce clear error messages.",
+      "requirements": []
+    },
+    {
+      "id": "mcp-contract-guarantees",
+      "title": "MCP Contract Guarantees",
+      "description": "All MCP tools must: return structured results with explicit error fields, never panic during execution, validate inputs before processing, include execution metadata in responses. MCP resources must return consistent schema. Transport selection (stdio/http/ws) must not affect tool behavior. Tools must be discoverable via the MCP protocol. Resources must support URI-based access pattern.",
+      "requirements": []
+    },
+    {
+      "id": "ddd-architecture-invariants",
+      "title": "DDD Architecture Invariants",
+      "description": "Strict dependency direction: domain -\u003e application -\u003e adapters/runtime -\u003e cmd. Domain packages must never import application or runtime packages. Domain layer must not log, perform I/O, or depend on infrastructure. Application layer orchestrates domain logic via injected interfaces. Interfaces defined at consumer side, not provider side. No circular dependencies between packages. Each bounded context (sync, rollout, governance, etc.) owns its domain model.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-sync-engine",
+      "title": "AC: Sync Engine",
+      "description": "Acceptance criteria for Validated Skill Sync Flow and Sync Engine. (1) Must validate skill.yaml before writing to any client directory. (2) Must validate input/output JSON schemas before install. (3) Must fail fast on schema errors with structured error output. (4) Must support dry-run mode via sync-plan command. (5) Must not mutate client directories in dry-run mode. (6) Must normalize schema differences across clients (dash vs underscore, tool naming). (7) Must emit JSON output when --output json is set. (8) Must install to all configured client adapters in a single sync invocation.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-oauth-and-connector-runtime",
+      "title": "AC: OAuth and Connector Runtime",
+      "description": "Acceptance criteria for OAuth Callback Runtime and Connector System. (1) Must validate OAuth state parameter on callback. (2) Must enforce configurable timeout (AIOS_OAUTH_TIMEOUT_SEC, default 120s). (3) Must support token override via AIOS_OAUTH_TOKEN env var for testing. (4) Must never log tokens or secrets to any output. (5) Must persist tokens exclusively to OS keychain adapter. (6) Must surface token expiration status in tray-status and health check. (7) Must bind connectors at execution time, not at install time. (8) Must reject skills that embed raw credentials.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-skill-artifact-model",
+      "title": "AC: Skill Artifact Model",
+      "description": "Acceptance criteria for Skill Artifact and Execution Model. (1) Skill must include: metadata, version, required connectors, input/output schemas, guardrails, prompt template, test fixtures. (2) skill.yaml must conform to documented spec (id, name, version, type, clients, requires, inputs, outputs, guardrails, execution, tests). (3) Execution defaults to suggest mode. (4) Skill must pass lint and fixture validation before sync install. (5) Skill must be portable across supported clients without modification. (6) Skill version must follow semver. (7) No embedded credentials in any skill file.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-drift-detection-and-repair",
+      "title": "AC: Drift Detection and Repair",
+      "description": "Acceptance criteria for Drift Protection and File Watch Monitor. (1) File watchers must observe all configured client config directories. (2) Must detect manual edits to client configs within polling interval. (3) Must validate detected differences before repair. (4) Must auto-repair safe config mismatches without user intervention. (5) Must surface non-repairable drift as alerts in status/health output. (6) Must maintain parity across all synced clients after repair. (7) Auto-resolve rate target: \u003e= 90% of drift incidents.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-os-keychain-token-store",
+      "title": "AC: OS Keychain Token Store",
+      "description": "Acceptance criteria for OS Keychain Token Store and Production Connector Security. (1) Must use macOS Keychain on darwin, Windows Credential Manager on windows. (2) Must not fall back to in-memory storage in production runtime path. (3) Must fail securely with clear error if keychain is unavailable or locked. (4) Must never write plaintext tokens to disk or logs. (5) In-memory token store acceptable only for test fixtures. (6) Must support token refresh flow when connector supports it.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-runtime-health-and-diagnostics",
+      "title": "AC: Runtime Health and Diagnostics",
+      "description": "Acceptance criteria for Runtime Health Reporting and Doctor Command. (1) Health check must report: runtime status, sync state, connector status, token expiration. (2) Doctor must validate workspace directory existence and permissions. (3) Doctor must validate all configured client directories are accessible. (4) Must support environment variable overrides for all paths (AIOS_WORKSPACE_DIR). (5) Must output structured JSON when --output json is set. (6) Health endpoints must be exposed via MCP resources (aios://status/health, aios://status/sync). (7) Exit code must reflect health status (0 = healthy, non-zero = degraded).",
+      "requirements": []
+    },
+    {
+      "id": "ac:-skill-linting-and-testing",
+      "title": "AC: Skill Linting and Testing",
+      "description": "Acceptance criteria for Skill Lint, Fixture Test Runner, and Validation Pipeline. (1) lint-skill must check: skill.yaml presence and validity, prompt.md presence, schema files present, tests directory with fixtures. (2) Must validate fixture/expected file pairing - fail on missing counterparts. (3) test-skill must execute all fixtures in tests/ directory and compare against expected outputs. (4) Must report pass/fail per fixture with structured output. (5) Schema validation must reject malformed JSON schemas before install. (6) Both lint and test must be exposed as MCP tools. (7) Must support --output json for automation.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-quick-skill-builder",
+      "title": "AC: Quick Skill Builder",
+      "description": "Acceptance criteria for Quick Skill Builder and init-skill. (1) Must scaffold complete skill directory structure (skill.yaml, prompt.md, schema.input.json, schema.output.json, tests/). (2) Generated skill must pass lint-skill without modification. (3) Must support skill type selection (reader, analyzer, screener, guardrail, action). (4) Generated schemas must be valid JSON Schema. (5) Must include at least one starter fixture/expected pair. (6) No JSON editing required by user to produce a working skill.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-cloud-registry-and-distribution",
+      "title": "AC: Cloud Registry and Distribution",
+      "description": "Acceptance criteria for H2 Cloud Skill Registry and Distribution. (1) Must support skill publishing with version metadata. (2) Must enforce signing at publish time. (3) Must verify signatures before install. (4) Local tray syncs from org registry. (5) Version updates must propagate to all subscribed clients. (6) Must support rollback to previous version. (7) Must enforce version constraints per team/department. (8) Registry state must be persistent.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-rbac-and-governance",
+      "title": "AC: RBAC and Governance",
+      "description": "Acceptance criteria for H2 RBAC and Governance Controls. (1) Must enforce role-based publishing permissions (admin, publisher, consumer). (2) Must restrict allowed connector scopes per role. (3) Must support skill approval workflows before distribution. (4) Must log all publish, install, and policy decisions to audit trail. (5) Audit bundles must be exportable and signed. (6) Audit signatures must be verifiable via CLI and MCP. (7) RBAC must be enforced at both publish and install time.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-rollout-and-bundles",
+      "title": "AC: Rollout and Bundles",
+      "description": "Acceptance criteria for H2 Bundles and Rollout Controls. (1) Must support department/team skill bundles. (2) Must support staged rollout with percentage-based targeting. (3) Must support rollback of individual skills and bundles. (4) Rollout plans must be persistable to disk. (5) Must support loading and listing persisted rollout plans. (6) Version enforcement must be visible in status output. (7) Must prevent downgrade unless explicitly forced.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-model-routing-and-policy-engine",
+      "title": "AC: Model Routing and Policy Engine",
+      "description": "Acceptance criteria for H3 Model Routing and Policy Engine. (1) Model routing must support policy packs: cost-first, quality-first, balanced. (2) Routing must be transparent to skill execution. (3) Must support fallback to alternate model on failure. (4) Cost tracking per execution must be recorded. (5) Policy engine must detect prompt injection attempts. (6) Must redact sensitive data before model invocation. (7) Must classify context and enforce guardrail policies. (8) Policy hooks must run in runtime execution path, not only MCP entrypoints. (9) Violation telemetry must be structured and exportable.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-analytics-and-observability",
+      "title": "AC: Analytics and Observability",
+      "description": "Acceptance criteria for H3 Analytics and Observability Platform. (1) Must track skill usage counts per skill and team. (2) Must track execution success/failure rates. (3) Must track adoption metrics across tracked projects. (4) Must persist analytics snapshots locally. (5) Must support trend reporting over time via CLI and MCP. (6) Must export machine-readable JSON. (7) Must track drift incidents and auto-resolve rates.",
+      "requirements": []
+    },
+    {
+      "id": "ac:-marketplace-ecosystem",
+      "title": "AC: Marketplace Ecosystem",
+      "description": "Acceptance criteria for H3 Marketplace. (1) Must support private org registries. (2) Must support public skill marketplace. (3) Must enforce compatibility contract checks before publish. (4) Must assign verification badges to skills meeting criteria. (5) Must include compatibility metadata (supported clients, versions). (6) Must expose compatibility matrix as MCP resource and CLI JSON output. (7) External developers must be able to publish verified skills. (8) Org must be able to install marketplace skills safely with contract validation.",
+      "requirements": []
+    },
+    {
+      "id": "h1-success-metrics",
+      "title": "H1 Success Metrics",
+      "description": "Measurable success criteria for Horizon 1 Local Kernel per PRD and Roadmap. (1) AI onboarding time \u003c 15 minutes from install to working skill. (2) Zero manual JSON editing required for any user operation. (3) Successful connector binding rate \u003e 95%. (4) Skill execution success rate \u003e 98%. (5) Drift detection auto-resolve rate \u003e= 90%. (6) At least 5 distinct skills built via Quick Builder. (7) At least 2 non-engineering users successfully onboarded. (8) 10-20 power users using weekly before H2 begins.",
+      "requirements": []
+    },
+    {
+      "id": "h2-success-metrics",
+      "title": "H2 Success Metrics",
+      "description": "Measurable success criteria for Horizon 2 Org Control Plane per PRD and Roadmap. (1) \u003e= 3 teams using shared skills. (2) Org-wide skill rollout achieved at least once. (3) Admin approval workflow functioning end-to-end. (4) Version enforcement stable across all clients. (5) Org-wide skill rollout time \u003c 1 hour. (6) Skill version adoption rate \u003e 80%. (7) Measurable reduction in config support tickets. (8) First paid customers (Pro tier).",
+      "requirements": []
+    },
+    {
+      "id": "h3-success-metrics",
+      "title": "H3 Success Metrics",
+      "description": "Measurable success criteria for Horizon 3 AI OS Platform per PRD and Roadmap. (1) Policy enforcement coverage across all skill executions. (2) Audit trail completeness for all governance decisions. (3) Enterprise adoption metrics tracked and reported. (4) External skill developer publishes verified skill to marketplace. (5) Org installs marketplace skill safely with contract validation. (6) Model routing cost tracking operational. (7) Analytics dashboard used by platform teams for decisions.",
+      "requirements": []
+    },
+    {
+      "id": "data-driven-agent-registry",
+      "title": "Data-Driven Agent Registry",
+      "description": "Replace hardcoded 3-client list (Claude, Cursor, Windsurf) with a data-driven agent registry supporting 9 agents: OpenCode, Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Goose, Windsurf, Cline. Agent definitions are loaded from an embedded agents.json file with name, displayName, skillsDir, altSkillsDirs, globalSkillsDir, detectPaths, and universal flag. Domain layer defines AgentDefinition value object. No horizon naming in code.",
+      "requirements": []
+    },
+    {
+      "id": "universal-skill-routing-with-symlinks",
+      "title": "Universal Skill Routing with Symlinks",
+      "description": "Implement duckrow-style universal skill routing. Skills are installed to a canonical .agents/skills/ directory. Universal agents (OpenCode, Codex, Gemini CLI, GitHub Copilot) read .agents/skills/ directly. Non-universal agents (Claude Code, Cursor, Goose, Windsurf, Cline) get symlinks from their agent-specific skills directory to the canonical location. Remove old per-client JSON/YAML config writers.",
+      "requirements": []
+    },
+    {
+      "id": "agent-auto-detection-and-targeting",
+      "title": "Agent Auto-Detection and Targeting",
+      "description": "Detect which AI coding agents are installed on the system by checking agent-specific config directories (e.g. ~/.claude, ~/.cursor, /opencode). Support --agents flag for selective targeting during sync/install/uninstall. Scan project folders to detect which agents have skills installed.",
+      "requirements": []
+    },
+    {
+      "id": "refactor-client-references-to-agent-registry",
+      "title": "Refactor Client References to Agent Registry",
+      "description": "Replace all 16 hardcoded 3-client references across core/config, core/cli, core/tray_state, core/backup, core/restore, core/doctor, skillsync_adapters, skilluninstall_adapters, syncplan_adapters, runtime, registry/cloud, and marketplace/catalog to use the data-driven agent registry. Config struct uses dynamic agent dirs instead of ClaudeConfigDir/CursorConfigDir/WindsurfConfigDir.",
+      "requirements": []
+    }
+  ],
+  "constraints": [],
+  "version": "0.1.0"
+}

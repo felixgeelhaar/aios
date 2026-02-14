@@ -1,0 +1,135 @@
+{
+  "id": "plan-new-project-1770973977",
+  "spec_id": "new-project",
+  "tasks": [
+    {
+      "id": "task-core-foundation",
+      "title": "Implement Core Foundation",
+      "description": "Implement the feature: Core Foundation. The essential building blocks of the project.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "core-foundation"
+    },
+    {
+      "id": "task-local-runtime-foundation",
+      "title": "Implement Local Runtime Foundation",
+      "description": "Implement the feature: Local Runtime Foundation. Build local-first tray/runtime in Go with local registry, OAuth connector setup, secure token storage, Claude Desktop integration, and baseline logging.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "local-runtime-foundation"
+    },
+    {
+      "id": "task-skill-artifact-\u0026-execution-model",
+      "title": "Implement Skill Artifact \u0026 Execution Model",
+      "description": "Implement the feature: Skill Artifact \u0026 Execution Model. Define installable skill artifacts with metadata, input/output schemas, guardrails, fixtures, and execution validation with suggest-mode default.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "skill-artifact-\u0026-execution-model"
+    },
+    {
+      "id": "task-quick-skill-builder",
+      "title": "Implement Quick Skill Builder",
+      "description": "Implement the feature: Quick Skill Builder. Ship wizard-based builder to generate production-ready skills without JSON editing, including schema generation and fixture validation.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "quick-skill-builder"
+    },
+    {
+      "id": "task-sync-engine-\u0026-drift-protection",
+      "title": "Implement Sync Engine \u0026 Drift Protection",
+      "description": "Implement the feature: Sync Engine \u0026 Drift Protection. Implement file watchers, schema normalization, auto-repair, and parity enforcement across client config directories.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "sync-engine-\u0026-drift-protection"
+    },
+    {
+      "id": "task-cursor-adapter",
+      "title": "Implement Cursor Adapter",
+      "description": "Implement the feature: Cursor Adapter. Add Cursor MCP adapter and schema translation so the same skill works consistently in Claude Desktop and Cursor.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "cursor-adapter"
+    },
+    {
+      "id": "task-cloud-skill-registry",
+      "title": "Implement Cloud Skill Registry",
+      "description": "Implement the feature: Cloud Skill Registry. Provide hosted registry with publish/install/versioning plus signing and verification workflows for team distribution.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "cloud-skill-registry"
+    },
+    {
+      "id": "task-bundles-\u0026-rollout-controls",
+      "title": "Implement Bundles \u0026 Rollout Controls",
+      "description": "Implement the feature: Bundles \u0026 Rollout Controls. Support department/team bundles, staged rollout, rollback, and version enforcement controls.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "bundles-\u0026-rollout-controls"
+    },
+    {
+      "id": "task-rbac-\u0026-governance-controls",
+      "title": "Implement RBAC \u0026 Governance Controls",
+      "description": "Implement the feature: RBAC \u0026 Governance Controls. Introduce role-based publishing, connector/scope restrictions, approval workflows, and audit logging.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "rbac-\u0026-governance-controls"
+    },
+    {
+      "id": "task-windsurf-\u0026-cli-mode",
+      "title": "Implement Windsurf \u0026 CLI Mode",
+      "description": "Implement the feature: Windsurf \u0026 CLI Mode. Add Windsurf client adapter and headless CLI mode for CI and developer automation.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "windsurf-\u0026-cli-mode"
+    },
+    {
+      "id": "task-model-routing-abstraction",
+      "title": "Implement Model Routing Abstraction",
+      "description": "Implement the feature: Model Routing Abstraction. Enable transparent multi-model execution with policy-based routing, fallback handling, and cost tracking.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "model-routing-abstraction"
+    },
+    {
+      "id": "task-policy-engine",
+      "title": "Implement Policy Engine",
+      "description": "Implement the feature: Policy Engine. Implement prompt-injection safeguards, redaction, context classification, and enforceable guardrail policies.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "policy-engine"
+    },
+    {
+      "id": "task-analytics-\u0026-observability-platform",
+      "title": "Implement Analytics \u0026 Observability Platform",
+      "description": "Implement the feature: Analytics \u0026 Observability Platform. Deliver usage analytics, execution success metrics, adoption tracking, and drift trend reporting dashboards.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "analytics-\u0026-observability-platform"
+    },
+    {
+      "id": "task-marketplace-ecosystem",
+      "title": "Implement Marketplace Ecosystem",
+      "description": "Implement the feature: Marketplace Ecosystem. Provide private/public skill registries, verification badges, and compatibility metadata for external distribution.",
+      "priority": "medium",
+      "estimate": "",
+      "depends_on": [],
+      "feature_id": "marketplace-ecosystem"
+    }
+  ],
+  "approval_status": "approved",
+  "created_at": "2026-02-13T10:12:57.098395+01:00",
+  "updated_at": "2026-02-13T10:15:32.429754+01:00"
+}

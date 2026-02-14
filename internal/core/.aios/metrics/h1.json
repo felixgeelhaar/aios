@@ -1,0 +1,10 @@
+{
+  "updated_at": "2026-02-13T11:35:05Z",
+  "onboarding_runs": 0,
+  "onboarding_under_15_min": 0,
+  "total_onboarding_sec": 0,
+  "sync_success": 4,
+  "sync_failure": 2,
+  "connector_success": 4,
+  "connector_failure": 0
+}

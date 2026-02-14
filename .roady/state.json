@@ -1,0 +1,899 @@
+{
+  "project_id": "new-project",
+  "version": 499,
+  "task_states": {
+    "task-`connect-google-drive`-times-out": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Troubleshooting section exists in docs/troubleshooting.md for connect-google-drive timeout"
+      ]
+    },
+    "task-`doctor`-reports-failed-checks": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Troubleshooting coverage in docs/troubleshooting.md"
+      ]
+    },
+    "task-`lint-skill`-reports-missing-fixture-pair": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Troubleshooting coverage in docs/troubleshooting.md"
+      ]
+    },
+    "task-`package-skill`-fails": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Troubleshooting coverage in docs/troubleshooting.md"
+      ]
+    },
+    "task-`serve-mcp`-fails-on-http/ws": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Troubleshooting coverage in docs/troubleshooting.md"
+      ]
+    },
+    "task-`sync`-fails-with-`skill-dir-is-required`": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Troubleshooting coverage in docs/troubleshooting.md"
+      ]
+    },
+    "task-ac:-analytics-and-observability": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-cloud-registry-and-distribution": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-drift-detection-and-repair": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-marketplace-ecosystem": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Marketplace AC tests in registry, marketplace, MCP test files"
+      ]
+    },
+    "task-ac:-model-routing-and-policy-engine": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-oauth-and-connector-runtime": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-os-keychain-token-store": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-quick-skill-builder": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-rbac-and-governance": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-rollout-and-bundles": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-runtime-health-and-diagnostics": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-skill-artifact-model": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-skill-linting-and-testing": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ac:-sync-engine": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Sync AC tests in sync, syncplan, cursor test files"
+      ]
+    },
+    "task-actionable-cli-sync-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-agent-auto-detection-and-targeting": {
+      "status": "done",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-analytics-\u0026-observability-platform": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-available-resources": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-available-tools": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-bundles-\u0026-rollout-controls": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ci-quality-and-security-gates": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-backup-client-configs": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-client-inventory-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-contract-guarantees": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "CLI contract tests in internal/core/cli_test.go"
+      ]
+    },
+    "task-cli-doctor-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-export-status-report": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented export-status-report CLI command + tests/docs"
+      ]
+    },
+    "task-cli-help-surface": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-json-output-mode": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-restore-client-configs": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented restore-configs CLI command + tests/docs"
+      ]
+    },
+    "task-cli-skill-scaffold-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-uninstall-skill-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-usage-documentation": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cli-version-and-build-metadata": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cloud-skill-registry": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-commands": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-config-driven-cli-runtime": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-configurable-mcp-transport": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-core-foundation": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-cursor-adapter": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-daily-flow": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-data-driven-agent-registry": {
+      "status": "done",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-ddd-architecture-invariants": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "DDD boundary tests in internal/architecture/ddd_boundaries_test.go"
+      ]
+    },
+    "task-dependency-integration-matrix": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added docs/dependency-matrix.md and updated MCP docs"
+      ]
+    },
+    "task-diagnostics": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-end-to-end-integration-tests": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-example-mcp-operations": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-generate-tasks-from-docs": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-global-flags": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-h1-exit-gate-evaluation-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added h1-exit-gates CLI command with gate evaluation logic and tests"
+      ]
+    },
+    "task-h1-exit-metrics-tracking": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added local H1 metrics store and CLI commands (onboarding-start/onboarding-complete/h1-metrics) with sync/connector recording"
+      ]
+    },
+    "task-h1-file-watch-drift-monitor": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented polling watcher with auto-repair hook and tests in internal/sync"
+      ]
+    },
+    "task-h1-google-drive-connector-cli-flow": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented connect-google-drive CLI flow with OAuth runtime/token override + tests/docs"
+      ]
+    },
+    "task-h1-local-kernel-scope": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-h1-local-oauth-callback-server": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "OAuth callback server implemented in internal/runtime/oauth.go with state/code handling and tests"
+      ]
+    },
+    "task-h1-non-goals": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-h1-oauth-callback-runtime": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented runtime OAuth callback server with state validation and code wait helpers"
+      ]
+    },
+    "task-h1-onboarding-path-integration-test": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added end-to-end H1 onboarding CLI integration test in internal/core/integration_test.go"
+      ]
+    },
+    "task-h1-success-metrics": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "H1 exit gates in observability/gates.go + 12 AC tests in gates_test.go"
+      ]
+    },
+    "task-h1-tray-skills-and-connections-surface": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented tray state persistence, tray-status CLI, and integration with tray/connect flows"
+      ]
+    },
+    "task-h2-organizational-control-plane-scope": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-h2-success-metrics": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-h3-ai-os-platform-scope": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-h3-analytics-export-surfaces": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added analytics-summary CLI + analytics_summary MCP tool + tests/docs + go test ./... pass"
+      ]
+    },
+    "task-h3-analytics-persistence-and-trend-report": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added persistent analytics snapshots + trend builder + analytics-record/analytics-trend CLI + aios://analytics/trend resource + tests/docs + go test ./... pass"
+      ]
+    },
+    "task-h3-governance-audit-export": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added signed governance audit bundle export in governance package, CLI audit-export and MCP governance_audit_export, docs/tests updated, go test ./... pass"
+      ]
+    },
+    "task-h3-governance-audit-verify": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added audit signature verification in governance + CLI audit-verify + MCP governance_audit_verify + tests/docs + go test ./... pass"
+      ]
+    },
+    "task-h3-marketplace-compatibility-matrix-resource": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added marketplace-matrix CLI output and aios://marketplace/compatibility MCP resource + docs/tests + go test ./... pass"
+      ]
+    },
+    "task-h3-marketplace-compatibility-validation": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added compatibility contract + badge criteria validation for publish/install flows in registry/marketplace with tests; go test ./... pass"
+      ]
+    },
+    "task-h3-marketplace-publish-and-install-cli/mcp": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added marketplace publish/list/install CLI and MCP surfaces with registry/contract validation, docs/tests updated, go test ./... pass"
+      ]
+    },
+    "task-h3-model-router-policy-packs": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added model policy packs + CLI/MCP inspection outputs + tests/docs updated + go test ./... pass"
+      ]
+    },
+    "task-h3-policy-aware-runtime-execution": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added runtime PrepareExecution with policy hooks + model routing, wired MCP execute_skill through runtime, tests green (go test ./... pass)"
+      ]
+    },
+    "task-h3-policy-redaction-runtime-hooks": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added runtime redaction/prompt-injection hooks in policy engine, enforced in execute_skill with telemetry, updated tests/docs, go test ./... pass"
+      ]
+    },
+    "task-h3-runtime-execution-report-export": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added runtime execution report artifact export in runtime package + CLI runtime-execution-report + MCP runtime_execution_report_export + tests/docs + go test ./... pass"
+      ]
+    },
+    "task-h3-strict-ddd-boundary-enforcement": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "added architecture DDD import boundary tests + go test ./... pass"
+      ]
+    },
+    "task-h3-success-metrics": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-helper-scripts": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-json-examples": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-keep-todo-list-accurate": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-lint-fixture-pair-consistency": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-local-runtime-foundation": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-marketplace-ecosystem": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-build-info-resource": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-command-reference-resource": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-contract-guarantees": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "MCP contract tests in internal/mcp/server_test.go"
+      ]
+    },
+    "task-mcp-docs-index-resource": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Implemented docs://index MCP resource + tests/docs"
+      ]
+    },
+    "task-mcp-docs-resources": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-doctor-tool": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-fixture-runner-tool": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-package-skill-tool": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-runtime-execution-integration": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-skill-validation-tool": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-status-resources": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-uninstall-skill-tool": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-mcp-usage-documentation": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-model-routing-abstraction": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-notes": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-operational-cli-and-mcp-serve": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-os-keychain-token-store": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-persistent-registry-and-governance-enforcement": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-persistent-rollout-plans": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-policy-engine": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-production-connector-security": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-quick-skill-builder": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-rbac-\u0026-governance-controls": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-real-client-sync-installers": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-refactor-client-references-to-agent-registry": {
+      "status": "done",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-roady-bootstrap-script": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added ci/roady_bootstrap.sh and safety updates for docs sync analyze mode"
+      ]
+    },
+    "task-roady-ci-workflow": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Updated .github/workflows/ci.yml to run Roady helper and preflight checks"
+      ]
+    },
+    "task-roady-command-catalog": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added docs/roady-commands.md and linked from docs/roady-mcp.md"
+      ]
+    },
+    "task-roady-docs-sync-script": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added ci/roady_docs_sync.sh and documented usage in docs/roady-mcp.md"
+      ]
+    },
+    "task-roady-helper-script-smoke-tests": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added ci/test_roady_helpers.sh and docs update"
+      ]
+    },
+    "task-roady-preflight-script": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added ci/roady_preflight.sh and command catalog update"
+      ]
+    },
+    "task-roady-task-lifecycle-script": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Added ci/roady_task.sh and documented usage in docs/roady-mcp.md"
+      ]
+    },
+    "task-run-mcp-server": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-runtime-health-reporting": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-security-invariants": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Security tests in lint, factory, keychain test files"
+      ]
+    },
+    "task-skill-artifact-\u0026-execution-model": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-skill-fixture-test-runner": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-skill-lint-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-skill-package-command": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-skill-schema-validation-pipeline": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-spec-and-plan": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-start-roady-mcp": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-sync-dry-run-planning": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-sync-engine-\u0026-drift-protection": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-task-lifecycle": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-tracked-projects-and-folders-inventory": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "implemented + go test ./... pass"
+      ]
+    },
+    "task-troubleshooting-documentation": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-tui-operations-console": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "implemented + go test ./... pass"
+      ]
+    },
+    "task-universal-skill-routing-with-symlinks": {
+      "status": "done",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-update-rule": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "Covered in docs/cli.md, docs/mcp.md, docs/roady-mcp.md, docs/roady-commands.md, docs/dependency-matrix.md"
+      ]
+    },
+    "task-validated-skill-sync-flow": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-windsurf-\u0026-cli-mode": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar"
+    },
+    "task-workspace-and-symlink-orchestration": {
+      "status": "verified",
+      "path": "",
+      "owner": "felixgeelhaar",
+      "evidence": [
+        "implemented + go test ./... pass"
+      ]
+    }
+  },
+  "updated_at": "2026-02-14T11:56:49.973055+01:00"
+}

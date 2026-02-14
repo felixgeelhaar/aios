@@ -1,0 +1,75 @@
+version: 1
+language: go
+policy:
+  default:
+    min: 80
+  domains:
+    - name: cmd
+      match:
+        - ./cmd/...
+      min: 80
+    - name: agents
+      match:
+        - ./internal/agents/...
+      min: 80
+    - name: application
+      match:
+        - ./internal/application/...
+      min: 80
+    # architecture: test-only package (no production code), excluded from coverage
+    - name: builder
+      match:
+        - ./internal/builder/...
+      min: 80
+    - name: core
+      match:
+        - ./internal/core/...
+      min: 80
+    - name: domain
+      match:
+        - ./internal/domain/...
+      min: 95
+    - name: governance
+      match:
+        - ./internal/governance/...
+      min: 80
+    - name: marketplace
+      match:
+        - ./internal/marketplace/...
+      min: 83.9
+    - name: mcp
+      match:
+        - ./internal/mcp/...
+      min: 80
+    - name: model
+      match:
+        - ./internal/model/...
+      min: 80
+    - name: observability
+      match:
+        - ./internal/observability/...
+      min: 80
+    - name: policy
+      match:
+        - ./internal/policy/...
+      min: 92.4
+    - name: registry
+      match:
+        - ./internal/registry/...
+      min: 80
+    - name: rollout
+      match:
+        - ./internal/rollout/...
+      min: 80
+    - name: runtime
+      match:
+        - ./internal/runtime/...
+      min: 80
+    - name: skill
+      match:
+        - ./internal/skill/...
+      min: 80
+    - name: sync
+      match:
+        - ./internal/sync/...
+      min: 80
