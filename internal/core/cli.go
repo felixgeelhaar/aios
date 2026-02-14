@@ -805,7 +805,7 @@ func (c CLI) Run(ctx context.Context, cmd string, skillDir string, mcpTransport 
 		_, _ = fmt.Fprintf(c.Out, "applied: %d\nskipped: %d\n", len(result.Applied), len(result.Skipped))
 		return nil
 	case "tui":
-		return c.runTUI(ctx)
+		return c.RunTUI(ctx)
 	case "package-skill":
 		result, err := c.PackageSkill(ctx, domainskillpackage.PackageSkillCommand{SkillDir: skillDir})
 		if err != nil {

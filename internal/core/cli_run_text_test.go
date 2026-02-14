@@ -191,7 +191,7 @@ func TestCLIServeMCPUnsupportedTransport(t *testing.T) {
 func TestCLITUIUnknownChoice(t *testing.T) {
 	buf := &bytes.Buffer{}
 	cli := DefaultCLI(buf, DefaultConfig())
-	cli.In = strings.NewReader("x\nq\n")
+	cli.In = strings.NewReader("9\nq\n")
 	cli.ListProjects = func(context.Context) ([]domainprojectinventory.Project, error) { return nil, nil }
 	cli.ValidateWorkspace = func(context.Context) (domainworkspace.ValidationResult, error) {
 		return domainworkspace.ValidationResult{Healthy: true}, nil

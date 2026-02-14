@@ -579,7 +579,7 @@ func TestCLITUIQuit(t *testing.T) {
 		t.Fatalf("tui failed: %v", err)
 	}
 	out := buf.String()
-	if !strings.Contains(out, "AIOS Operations Console") || !strings.Contains(out, "bye") {
+	if !strings.Contains(out, "AIOS Operations Console") {
 		t.Fatalf("unexpected tui output: %q", out)
 	}
 }

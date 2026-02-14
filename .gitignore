@@ -3,3 +3,11 @@ coverage.out
 findings.json
 __pycache__/
 .DS_Store
+.agents/
+.aios/
+.claude/
+.cline/
+.cursor/
+.goose/
+.windsurf/
+skills/

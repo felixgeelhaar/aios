@@ -1,0 +1,30 @@
+{
+  "schema_version": "2.0.0",
+  "components": [
+    {
+      "name": "agents.json",
+      "type": "agent",
+      "path": "internal/agents/agents.json"
+    },
+    {
+      "name": "installer.go",
+      "type": "agent",
+      "path": "internal/agents/installer.go"
+    },
+    {
+      "name": "installer_test.go",
+      "type": "agent",
+      "path": "internal/agents/installer_test.go"
+    },
+    {
+      "name": "registry.go",
+      "type": "agent",
+      "path": "internal/agents/registry.go"
+    },
+    {
+      "name": "registry_test.go",
+      "type": "agent",
+      "path": "internal/agents/registry_test.go"
+    }
+  ]
+}

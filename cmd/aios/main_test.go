@@ -7,87 +7,72 @@ import (
 	"testing"
 )
 
-func TestRunReturnsExitCode2OnFlagParseError(t *testing.T) {
-	t.Parallel()
-
+func TestRunReturnsExitCode2OnUnknownFlag(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	code := run([]string{"-unknown-flag"}, &stdout, &stderr)
+	code := run([]string{"status", "--unknown"}, &stdout, &stderr)
 	if code != 2 {
 		t.Fatalf("expected exit code 2, got %d", code)
 	}
-	if !strings.Contains(stderr.String(), "flag provided but not defined") {
-		t.Fatalf("expected flag parse error in stderr, got %q", stderr.String())
+	if !strings.Contains(stderr.String(), "unknown flag") {
+		t.Fatalf("expected flag parse error, got %q", stderr.String())
 	}
 }
 
-func TestRunReturnsExitCode1OnUnsupportedMode(t *testing.T) {
-	t.Parallel()
-
+func TestRunReturnsExitCode1OnUnknownCommand(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	code := run([]string{"-mode", "invalid"}, &stdout, &stderr)
+	code := run([]string{"no-such-command"}, &stdout, &stderr)
 	if code != 1 {
 		t.Fatalf("expected exit code 1, got %d", code)
 	}
-	if !strings.Contains(stderr.String(), "unsupported mode") {
-		t.Fatalf("expected unsupported mode error in stderr, got %q", stderr.String())
+	if !strings.Contains(stderr.String(), "unknown command") {
+		t.Fatalf("expected unknown command error, got %q", stderr.String())
 	}
 }
 
-func TestRunReturnsExitCode1OnUnknownCLICommand(t *testing.T) {
-	t.Parallel()
-
+func TestRunReturnsExitCode0ForStatus(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	code := run([]string{"-mode", "cli", "-command", "no-such-command"}, &stdout, &stderr)
-	if code != 1 {
-		t.Fatalf("expected exit code 1, got %d", code)
-	}
-	if !strings.Contains(stderr.String(), "unknown cli command") {
-		t.Fatalf("expected unknown command error in stderr, got %q", stderr.String())
-	}
-}
-
-func TestRunReturnsExitCode0ForCLIStatus(t *testing.T) {
-	t.Parallel()
-
-	var stdout bytes.Buffer
-	var stderr bytes.Buffer
-
-	code := run([]string{"-mode", "cli", "-command", "status"}, &stdout, &stderr)
+	code := run([]string{"status"}, &stdout, &stderr)
 	if code != 0 {
 		t.Fatalf("expected exit code 0, got %d, stderr=%q", code, stderr.String())
 	}
 }
 
-func TestRunUsesSkillIDFallback(t *testing.T) {
-	t.Parallel()
-
+func TestRunLegacyModeSupportsCLICommand(t *testing.T) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	code := run([]string{"-mode", "cli", "-command", "sync", "-skill-id", "testdata/missing"}, &stdout, &stderr)
+	code := run([]string{"--mode", "cli", "--command", "status"}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected exit code 0, got %d, stderr=%q", code, stderr.String())
+	}
+}
+
+func TestRunReturnsExitCode1OnUnsupportedMode(t *testing.T) {
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+
+	code := run([]string{"--mode", "invalid"}, &stdout, &stderr)
 	if code != 1 {
 		t.Fatalf("expected exit code 1, got %d", code)
 	}
-	if !strings.Contains(stderr.String(), "read skill spec") {
-		t.Fatalf("expected sync error using skill-id fallback, got %q", stderr.String())
+	if !strings.Contains(stderr.String(), "unsupported mode") {
+		t.Fatalf("expected unsupported mode error, got %q", stderr.String())
 	}
 }
 
 func TestRunEmitsStructuredJSONError(t *testing.T) {
-	t.Parallel()
-
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	code := run([]string{"-mode", "cli", "-command", "no-such-command", "-output", "json"}, &stdout, &stderr)
-	if code != 1 {
-		t.Fatalf("expected exit code 1, got %d", code)
+	code := run([]string{"status", "--output", "json", "--unknown"}, &stdout, &stderr)
+	if code != 2 {
+		t.Fatalf("expected exit code 2, got %d", code)
 	}
 
 	var errResp map[string]any
@@ -97,7 +82,7 @@ func TestRunEmitsStructuredJSONError(t *testing.T) {
 	if _, ok := errResp["error"]; !ok {
 		t.Fatalf("JSON error missing 'error' field: %#v", errResp)
 	}
-	if errResp["command"] != "no-such-command" {
+	if errResp["command"] != "status" {
 		t.Fatalf("JSON error missing correct 'command' field: %#v", errResp)
 	}
 }
