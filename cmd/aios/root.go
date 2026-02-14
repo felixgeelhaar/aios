@@ -24,6 +24,8 @@ type rootOptions struct {
 	skillID      string
 	mcpTransport string
 	mcpAddr      string
+	verbose      bool
+	yes          bool
 }
 
 func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
@@ -48,6 +50,8 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 	root.SetErr(stderr)
 
 	root.PersistentFlags().StringVar(&opts.output, "output", "text", "output format: text|json")
+	root.PersistentFlags().BoolVar(&opts.verbose, "verbose", false, "enable verbose output")
+	root.PersistentFlags().BoolVarP(&opts.yes, "yes", "y", false, "skip confirmation prompts for destructive operations")
 	root.PersistentFlags().StringVar(&opts.mode, "mode", "", "DEPRECATED: use subcommands")
 	root.PersistentFlags().StringVar(&opts.command, "command", "status", "DEPRECATED: use subcommands")
 	root.PersistentFlags().StringVar(&opts.skillDir, "skill-dir", "", "DEPRECATED: use subcommands")
