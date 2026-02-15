@@ -24,19 +24,15 @@ func (s Service) Validate(ctx context.Context) (domain.ValidationResult, error) 
 		return domain.ValidationResult{}, err
 	}
 	links := make([]domain.LinkReport, 0, len(projects))
-	healthy := true
 	for _, p := range projects {
 		link, err := s.links.Inspect(p.ID, p.Path)
 		if err != nil {
 			return domain.ValidationResult{}, err
 		}
 		links = append(links, link)
-		if link.Status != domain.LinkStatusOK {
-			healthy = false
-		}
 	}
 	return domain.ValidationResult{
-		Healthy: healthy,
+		Healthy: domain.ComputeHealthy(links),
 		Links:   links,
 	}, nil
 }
@@ -48,40 +44,7 @@ func (s Service) Plan(ctx context.Context) (domain.PlanResult, error) {
 	}
 	actions := make([]domain.PlanAction, 0, len(validation.Links))
 	for _, link := range validation.Links {
-		switch link.Status {
-		case domain.LinkStatusOK:
-			actions = append(actions, domain.PlanAction{
-				Kind:       domain.ActionSkip,
-				ProjectID:  link.ProjectID,
-				LinkPath:   link.LinkPath,
-				TargetPath: link.ProjectPath,
-				Reason:     "already healthy",
-			})
-		case domain.LinkStatusMissing:
-			actions = append(actions, domain.PlanAction{
-				Kind:       domain.ActionCreate,
-				ProjectID:  link.ProjectID,
-				LinkPath:   link.LinkPath,
-				TargetPath: link.ProjectPath,
-				Reason:     "link missing",
-			})
-		case domain.LinkStatusBroken:
-			actions = append(actions, domain.PlanAction{
-				Kind:       domain.ActionRepair,
-				ProjectID:  link.ProjectID,
-				LinkPath:   link.LinkPath,
-				TargetPath: link.ProjectPath,
-				Reason:     "link target mismatch",
-			})
-		case domain.LinkStatusConflict:
-			actions = append(actions, domain.PlanAction{
-				Kind:       domain.ActionSkip,
-				ProjectID:  link.ProjectID,
-				LinkPath:   link.LinkPath,
-				TargetPath: link.ProjectPath,
-				Reason:     "non-symlink conflict at link path",
-			})
-		}
+		actions = append(actions, link.RecommendAction())
 	}
 	return domain.PlanResult{Actions: actions}, nil
 }
@@ -94,17 +57,16 @@ func (s Service) Repair(ctx context.Context) (domain.RepairResult, error) {
 	applied := make([]domain.PlanAction, 0, len(plan.Actions))
 	skipped := make([]domain.PlanAction, 0, len(plan.Actions))
 	for _, action := range plan.Actions {
-		switch action.Kind {
-		case domain.ActionCreate, domain.ActionRepair:
-			if err := s.links.Ensure(action.ProjectID, action.TargetPath); err != nil {
-				action.Reason = action.Reason + ": " + err.Error()
-				skipped = append(skipped, action)
-				continue
-			}
-			applied = append(applied, action)
-		default:
+		if !action.IsApplicable() {
 			skipped = append(skipped, action)
+			continue
 		}
+		if err := s.links.Ensure(action.ProjectID, action.TargetPath); err != nil {
+			action.Reason = action.Reason + ": " + err.Error()
+			skipped = append(skipped, action)
+			continue
+		}
+		applied = append(applied, action)
 	}
 	return domain.RepairResult{
 		Applied: applied,
