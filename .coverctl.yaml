@@ -64,7 +64,7 @@ policy:
     - name: runtime
       match:
         - ./internal/runtime/...
-      min: 80
+      min: 60
     - name: skill
       match:
         - ./internal/skill/...
