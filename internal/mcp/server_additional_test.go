@@ -437,6 +437,156 @@ func TestNewServerUninstallSkillUsesDefaultHandler(t *testing.T) {
 	}
 }
 
+func TestNewServerSyncExecuteTool(t *testing.T) {
+	root := t.TempDir()
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("getwd failed: %v", err)
+	}
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir failed: %v", err)
+	}
+	t.Cleanup(func() {
+		_ = os.Chdir(cwd)
+	})
+
+	skillDir := filepath.Join(root, "skill")
+	if err := os.MkdirAll(skillDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "skill.yaml"), []byte("id: test-skill\nversion: 0.1.0\ninputs:\n  schema: input.json\noutputs:\n  schema: output.json\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "input.json"), []byte(`{"type":"object","properties":{"query":{"type":"string"}}}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "output.json"), []byte(`{"type":"object","properties":{"result":{"type":"string"}}}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	srv := NewServer("0.1.0")
+	tool, ok := srv.GetTool("sync_execute")
+	if !ok {
+		t.Fatal("missing sync_execute tool")
+	}
+	result, err := tool.Execute(context.Background(), json.RawMessage(`{"skill_dir":"`+skillDir+`"}`))
+	if err != nil {
+		t.Fatalf("sync_execute failed: %v", err)
+	}
+	_ = result
+}
+
+func TestNewServerSyncPlanTool(t *testing.T) {
+	root := t.TempDir()
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("getwd failed: %v", err)
+	}
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir failed: %v", err)
+	}
+	t.Cleanup(func() {
+		_ = os.Chdir(cwd)
+	})
+
+	skillDir := filepath.Join(root, "skill")
+	if err := os.MkdirAll(skillDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "skill.yaml"), []byte("id: test-skill\nversion: 0.1.0\ninputs:\n  schema: input.json\noutputs:\n  schema: output.json\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "input.json"), []byte(`{"type":"object"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "output.json"), []byte(`{"type":"object"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	srv := NewServer("0.1.0")
+	tool, ok := srv.GetTool("sync_plan")
+	if !ok {
+		t.Fatal("missing sync_plan tool")
+	}
+	result, err := tool.Execute(context.Background(), json.RawMessage(`{"skill_dir":"`+skillDir+`"}`))
+	if err != nil {
+		t.Fatalf("sync_plan failed: %v", err)
+	}
+	_ = result
+}
+
+func TestNewServerLintSkillTool(t *testing.T) {
+	root := t.TempDir()
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("getwd failed: %v", err)
+	}
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir failed: %v", err)
+	}
+	t.Cleanup(func() {
+		_ = os.Chdir(cwd)
+	})
+
+	skillDir := filepath.Join(root, "skill")
+	if err := os.MkdirAll(skillDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "skill.yaml"), []byte("id: test-skill\nversion: 0.1.0\ninputs:\n  schema: input.json\noutputs:\n  schema: output.json\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "input.json"), []byte(`{"type":"object"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "output.json"), []byte(`{"type":"object"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(skillDir, "prompt.md"), []byte("# Prompt"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(filepath.Join(skillDir, "tests"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	srv := NewServer("0.1.0")
+	tool, ok := srv.GetTool("lint_skill")
+	if !ok {
+		t.Fatal("missing lint_skill tool")
+	}
+	result, err := tool.Execute(context.Background(), json.RawMessage(`{"skill_dir":"`+skillDir+`"}`))
+	if err != nil {
+		t.Fatalf("lint_skill failed: %v", err)
+	}
+	_ = result
+}
+
+func TestNewServerSkillInitTool(t *testing.T) {
+	root := t.TempDir()
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("getwd failed: %v", err)
+	}
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir failed: %v", err)
+	}
+	t.Cleanup(func() {
+		_ = os.Chdir(cwd)
+	})
+
+	skillDir := filepath.Join(root, "new-skill")
+
+	srv := NewServer("0.1.0")
+	tool, ok := srv.GetTool("skill_init")
+	if !ok {
+		t.Fatal("missing skill_init tool")
+	}
+	result, err := tool.Execute(context.Background(), json.RawMessage(`{"skill_dir":"`+skillDir+`"}`))
+	if err != nil {
+		t.Fatalf("skill_init failed: %v", err)
+	}
+	_ = result
+}
+
 func TestUninstallSkillToolErrorsWithoutDeps(t *testing.T) {
 	srv := NewServerWithDeps("0.1.0", ServerDeps{})
 	tool, ok := srv.GetTool("uninstall_skill")

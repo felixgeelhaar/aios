@@ -3,19 +3,125 @@ package mcp
 import (
 	"context"
 	"encoding/json"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
+	domainproject "github.com/felixgeelhaar/aios/internal/domain/projectinventory"
 	"github.com/felixgeelhaar/aios/internal/policy"
 	"github.com/felixgeelhaar/aios/internal/sync"
 	mcpg "github.com/felixgeelhaar/mcp-go"
 )
 
+func TestMCPProjectInventoryRepositoryLoad(t *testing.T) {
+	tmpDir := t.TempDir()
+	repo := mcpProjectInventoryRepository{workspaceDir: tmpDir}
+
+	inv, err := repo.Load(context.Background())
+	if err != nil {
+		t.Fatalf("Load failed: %v", err)
+	}
+	if len(inv.Projects) != 0 {
+		t.Fatalf("expected empty inventory, got %d projects", len(inv.Projects))
+	}
+}
+
+func TestMCPProjectInventoryRepositorySaveAndLoad(t *testing.T) {
+	tmpDir := t.TempDir()
+	repo := mcpProjectInventoryRepository{workspaceDir: tmpDir}
+
+	inv := domainproject.Inventory{
+		Projects: []domainproject.Project{
+			{ID: "proj-1", Path: "/tmp/proj1", AddedAt: "2026-02-15T00:00:00Z"},
+		},
+	}
+	err := repo.Save(context.Background(), inv)
+	if err != nil {
+		t.Fatalf("Save failed: %v", err)
+	}
+
+	loaded, err := repo.Load(context.Background())
+	if err != nil {
+		t.Fatalf("Load after save failed: %v", err)
+	}
+	if len(loaded.Projects) != 1 {
+		t.Fatalf("expected 1 project, got %d", len(loaded.Projects))
+	}
+}
+
+func TestMCPProjectInventoryRepositorySaveInvalid(t *testing.T) {
+	tmpDir := t.TempDir()
+	repo := mcpProjectInventoryRepository{workspaceDir: tmpDir}
+
+	inv := domainproject.Inventory{
+		Projects: []domainproject.Project{
+			{ID: "proj-1", Path: "/tmp/proj1", AddedAt: "2026-02-15T00:00:00Z"},
+		},
+	}
+	err := repo.Save(context.Background(), inv)
+	if err != nil {
+		t.Fatalf("Save failed: %v", err)
+	}
+
+	invPath := filepath.Join(tmpDir, "projects", "inventory.json")
+	if err := os.WriteFile(invPath, []byte("invalid json"), 0o644); err != nil {
+		t.Fatalf("write invalid inventory: %v", err)
+	}
+
+	_, err = repo.Load(context.Background())
+	if err == nil {
+		t.Fatal("expected error for invalid JSON")
+	}
+}
+
+func TestMCPInventoryProjectSource(t *testing.T) {
+	tmpDir := t.TempDir()
+	repo := mcpProjectInventoryRepository{workspaceDir: tmpDir}
+	source := mcpInventoryProjectSource{repo: repo}
+
+	_, err := source.ListProjects(context.Background())
+	if err != nil {
+		t.Fatalf("ListProjects failed: %v", err)
+	}
+}
+
+func TestMCPFilesystemWorkspaceLinksInspect(t *testing.T) {
+	tmpDir := t.TempDir()
+	links := mcpFilesystemWorkspaceLinks{workspaceDir: tmpDir}
+
+	report, err := links.Inspect("proj-1", "/tmp/proj1")
+	if err != nil {
+		t.Fatalf("Inspect failed: %v", err)
+	}
+	if report.ProjectID != "proj-1" {
+		t.Fatalf("expected proj-1, got %s", report.ProjectID)
+	}
+}
+
+func TestMCPFilesystemWorkspaceLinksEnsure(t *testing.T) {
+	tmpDir := t.TempDir()
+	links := mcpFilesystemWorkspaceLinks{workspaceDir: tmpDir}
+
+	err := links.Ensure("proj-1", "/tmp/proj1")
+	if err != nil {
+		t.Fatalf("Ensure failed: %v", err)
+	}
+
+	report, err := links.Inspect("proj-1", "/tmp/proj1")
+	if err != nil {
+		t.Fatalf("Inspect after Ensure failed: %v", err)
+	}
+	if report.Status != "ok" {
+		t.Fatalf("expected status ok, got %s", report.Status)
+	}
+}
+
 func TestServerRegistersToolsAndResources(t *testing.T) {
 	srv := NewServerWithDeps("0.1.0", ServerDeps{Sync: sync.NewEngine()})
 	tools := srv.Tools()
-	if len(tools) != 23 {
-		t.Fatalf("expected twenty-three tools, got %d", len(tools))
+	if len(tools) != 27 {
+		t.Fatalf("expected twenty-seven tools, got %d", len(tools))
 	}
 	toolByName := map[string]bool{}
 	for _, tool := range tools {
@@ -37,6 +143,10 @@ func TestServerRegistersToolsAndResources(t *testing.T) {
 		"governance_audit_export",
 		"governance_audit_verify",
 		"runtime_execution_report_export",
+		"sync_execute",
+		"sync_plan",
+		"lint_skill",
+		"skill_init",
 	} {
 		if !toolByName[name] {
 			t.Fatalf("expected tool %q to be registered", name)
@@ -340,8 +450,8 @@ func TestPanicRecoveryMiddlewareCanBeWired(t *testing.T) {
 
 	// Verify the server is still functional after middleware construction.
 	tools := srv.Tools()
-	if len(tools) != 23 {
-		t.Fatalf("expected 23 tools, got %d", len(tools))
+	if len(tools) != 27 {
+		t.Fatalf("expected 27 tools, got %d", len(tools))
 	}
 }
 

@@ -13,6 +13,7 @@ import (
 	"github.com/felixgeelhaar/aios/internal/agents"
 	applicationproject "github.com/felixgeelhaar/aios/internal/application/projectinventory"
 	applicationworkspace "github.com/felixgeelhaar/aios/internal/application/workspaceorchestration"
+	"github.com/felixgeelhaar/aios/internal/builder"
 	"github.com/felixgeelhaar/aios/internal/governance"
 	"github.com/felixgeelhaar/aios/internal/marketplace"
 	"github.com/felixgeelhaar/aios/internal/model"
@@ -79,6 +80,18 @@ type GovernanceAuditVerifyInput struct {
 type RuntimeExecutionReportExportInput struct {
 	Output string `json:"output,omitempty" jsonschema:"description=Optional output path for runtime execution report"`
 }
+type SyncSkillInput struct {
+	SkillDir string `json:"skill_dir" jsonschema:"required,description=Absolute or relative path to a skill directory to sync"`
+}
+type SyncPlanInput struct {
+	SkillDir string `json:"skill_dir" jsonschema:"required,description=Absolute or relative path to a skill directory for planning"`
+}
+type LintSkillInput struct {
+	SkillDir string `json:"skill_dir" jsonschema:"required,description=Absolute or relative path to a skill directory to lint"`
+}
+type InitSkillInput struct {
+	SkillDir string `json:"skill_dir" jsonschema:"required,description=Absolute or relative path where to create skill scaffold"`
+}
 
 type ServerDeps struct {
 	Sync      *sync.Engine
@@ -87,9 +100,14 @@ type ServerDeps struct {
 	BuildDate string
 	Doctor    func() map[string]any
 	Uninstall func(skillDir string) (string, error)
+	SyncSkill func(ctx context.Context, skillDir string) (string, error)
+	SyncPlan  func(ctx context.Context, skillDir string) (map[string]any, error)
+	LintSkill func(ctx context.Context, skillDir string) (map[string]any, error)
+	InitSkill func(skillDir string) error
 }
 
 func NewServer(version string) *mcpg.Server {
+	mcpWorkspace := mcpWorkspaceDir()
 	return NewServerWithDeps(version, ServerDeps{
 		Sync:      sync.NewEngine(),
 		Version:   version,
@@ -112,6 +130,52 @@ func NewServer(version string) *mcpg.Server {
 				return "", err
 			}
 			return spec.ID, nil
+		},
+		SyncSkill: func(ctx context.Context, skillDir string) (string, error) {
+			spec, err := skill.LoadSkillSpec(filepath.Join(skillDir, "skill.yaml"))
+			if err != nil {
+				return "", err
+			}
+			if err := skill.ValidateSkillSpec(skillDir, spec); err != nil {
+				return "", err
+			}
+			allAgents, loadErr := agents.LoadAll()
+			if loadErr != nil {
+				return "", loadErr
+			}
+			si := agents.NewSkillInstaller(allAgents)
+			_, err = si.InstallSkill(spec.ID, agents.InstallOptions{ProjectDir: mcpWorkspace})
+			if err != nil {
+				return "", err
+			}
+			return spec.ID, nil
+		},
+		SyncPlan: func(ctx context.Context, skillDir string) (map[string]any, error) {
+			spec, err := skill.LoadSkillSpec(filepath.Join(skillDir, "skill.yaml"))
+			if err != nil {
+				return nil, err
+			}
+			allAgents, loadErr := agents.LoadAll()
+			if loadErr != nil {
+				return nil, loadErr
+			}
+			si := agents.NewSkillInstaller(allAgents)
+			writes := si.PlanWriteTargets(spec.ID, mcpWorkspace)
+			return map[string]any{"skill_id": spec.ID, "writes": writes}, nil
+		},
+		LintSkill: func(ctx context.Context, skillDir string) (map[string]any, error) {
+			res, err := skill.LintSkillDir(skillDir)
+			if err != nil {
+				return nil, err
+			}
+			return map[string]any{"valid": res.Valid, "issues": res.Issues}, nil
+		},
+		InitSkill: func(skillDir string) error {
+			return builder.BuildSkill(builder.Spec{
+				ID:      filepath.Base(skillDir),
+				Version: "0.1.0",
+				Dir:     filepath.Dir(skillDir),
+			})
 		},
 	})
 }
@@ -297,6 +361,69 @@ func NewServerWithDeps(version string, deps ServerDeps) *mcpg.Server {
 				return nil, err
 			}
 			return map[string]any{"uninstalled": id}, nil
+		})
+
+	srv.Tool("sync_execute").
+		Description("Sync a skill to all configured agent directories, creating symlinks and updating registry.").
+		Handler(func(input SyncSkillInput) (map[string]any, error) {
+			if strings.TrimSpace(input.SkillDir) == "" {
+				return nil, fmt.Errorf("skill_dir is required")
+			}
+			if deps.SyncSkill == nil {
+				return nil, fmt.Errorf("sync function not configured")
+			}
+			id, err := deps.SyncSkill(context.Background(), input.SkillDir)
+			if err != nil {
+				return nil, err
+			}
+			return map[string]any{"synced": true, "skill_id": id}, nil
+		})
+
+	srv.Tool("sync_plan").
+		Description("Show what files would be written to agent directories without making changes (dry-run).").
+		Handler(func(input SyncPlanInput) (map[string]any, error) {
+			if strings.TrimSpace(input.SkillDir) == "" {
+				return nil, fmt.Errorf("skill_dir is required")
+			}
+			if deps.SyncPlan == nil {
+				return nil, fmt.Errorf("sync_plan function not configured")
+			}
+			result, err := deps.SyncPlan(context.Background(), input.SkillDir)
+			if err != nil {
+				return nil, err
+			}
+			return result, nil
+		})
+
+	srv.Tool("lint_skill").
+		Description("Validate skill structure, SKILL.md syntax, and fixture consistency.").
+		Handler(func(input LintSkillInput) (map[string]any, error) {
+			if strings.TrimSpace(input.SkillDir) == "" {
+				return nil, fmt.Errorf("skill_dir is required")
+			}
+			if deps.LintSkill == nil {
+				return nil, fmt.Errorf("lint function not configured")
+			}
+			result, err := deps.LintSkill(context.Background(), input.SkillDir)
+			if err != nil {
+				return nil, err
+			}
+			return result, nil
+		})
+
+	srv.Tool("skill_init").
+		Description("Create a skill scaffold with standard file structure including SKILL.md, fixtures, and configuration.").
+		Handler(func(input InitSkillInput) (map[string]any, error) {
+			if strings.TrimSpace(input.SkillDir) == "" {
+				return nil, fmt.Errorf("skill_dir is required")
+			}
+			if deps.InitSkill == nil {
+				return nil, fmt.Errorf("init function not configured")
+			}
+			if err := deps.InitSkill(input.SkillDir); err != nil {
+				return nil, err
+			}
+			return map[string]any{"initialized": true, "skill_dir": input.SkillDir}, nil
 		})
 
 	srv.Tool("project_list").
