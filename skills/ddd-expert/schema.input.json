@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Question or request about DDD"
+    },
+    "context": {
+      "type": "string",
+      "description": "Business domain and system context"
+    },
+    "constraints": {
+      "type": "string",
+      "description": "Constraints, tech stack, or organizational limits"
+    },
+    "artifacts": {
+      "type": "string",
+      "description": "Relevant documents, links, or existing models"
+    },
+    "use_cases": {
+      "type": "string",
+      "description": "Key use cases or workflows"
+    }
+  }
+}

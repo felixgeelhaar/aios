@@ -1,0 +1,6 @@
+id: hello-skill
+version: 0.1.0
+inputs:
+  schema: schema.input.json
+outputs:
+  schema: schema.output.json

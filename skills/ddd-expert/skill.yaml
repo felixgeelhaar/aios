@@ -1,0 +1,7 @@
+id: ddd-expert
+version: 0.1.0
+description: "Domain-driven design advisor for bounded contexts, aggregates, and ubiquitous language."
+inputs:
+  schema: schema.input.json
+outputs:
+  schema: schema.output.json

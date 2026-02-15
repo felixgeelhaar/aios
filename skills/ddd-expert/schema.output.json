@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "High-level guidance"
+    },
+    "steps": {
+      "type": "string",
+      "description": "Recommended next steps"
+    },
+    "domain_model": {
+      "type": "string",
+      "description": "Suggested aggregates, entities, and value objects"
+    },
+    "ubiquitous_language": {
+      "type": "string",
+      "description": "Shared vocabulary proposal"
+    },
+    "bounded_contexts": {
+      "type": "string",
+      "description": "Context boundaries and relationships"
+    },
+    "risks": {
+      "type": "string",
+      "description": "Potential risks or tradeoffs"
+    }
+  }
+}

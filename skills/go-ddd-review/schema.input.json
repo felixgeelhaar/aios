@@ -1,0 +1,1 @@
+{"type":"object","properties":{"files":{"type":"string","description":"File paths or git diff to review"},"scope":{"type":"string","description":"Focus area: layers, purity, aggregates, or ports"}}}

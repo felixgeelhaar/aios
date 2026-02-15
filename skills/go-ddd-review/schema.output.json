@@ -1,0 +1,1 @@
+{"type":"object","properties":{"compliant":{"type":"boolean","description":"Whether the code is DDD-compliant"},"violations":{"type":"string","description":"List of violations found"}}}

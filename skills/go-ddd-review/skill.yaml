@@ -1,0 +1,7 @@
+id: go-ddd-review
+version: 0.1.0
+description: "Review Go code for DDD compliance: layer boundaries, domain purity, aggregate design, and port/adapter separation."
+inputs:
+  schema: schema.input.json
+outputs:
+  schema: schema.output.json
