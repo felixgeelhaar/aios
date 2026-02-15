@@ -6,6 +6,39 @@ import (
 	"github.com/felixgeelhaar/aios/internal/domain/projectinventory"
 )
 
+func TestNormalizeSelector(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"  /path/to/project  ", "/path/to/project"},
+		{"abc123", "abc123"},
+		{"   ", ""},
+		{"", ""},
+	}
+	for _, tt := range tests {
+		got := projectinventory.NormalizeSelector(tt.input)
+		if got != tt.expected {
+			t.Errorf("NormalizeSelector(%q) = %q, want %q", tt.input, got, tt.expected)
+		}
+	}
+}
+
+func TestProjectID(t *testing.T) {
+	id := projectinventory.ProjectID("/home/user/project")
+	if id == "" {
+		t.Fatal("expected non-empty project ID")
+	}
+	// Same input produces same ID (deterministic).
+	if id2 := projectinventory.ProjectID("/home/user/project"); id != id2 {
+		t.Errorf("expected deterministic ID, got %q and %q", id, id2)
+	}
+	// Different input produces different ID.
+	if id3 := projectinventory.ProjectID("/home/user/other"); id == id3 {
+		t.Error("expected different IDs for different paths")
+	}
+}
+
 func TestFindBySelector_ByID(t *testing.T) {
 	inv := projectinventory.Inventory{
 		Projects: []projectinventory.Project{
