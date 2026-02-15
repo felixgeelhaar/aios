@@ -336,6 +336,46 @@
       "severity": "medium",
       "reason": "Roady-generated state.json - hex encoded state data",
       "created_at": "2026-02-14T13:21:38.241807Z"
+    },
+    {
+      "fingerprint": "7150a5be49b6a949ce1b8598478809bf27ac3e73abd86af6b85e6bc41f176c04",
+      "rule_id": "DATA-005",
+      "file_path": "internal/runtime/oauth.go",
+      "severity": "medium",
+      "reason": "Mock IP address in test configuration - not a real secret",
+      "created_at": "2026-02-15T14:55:50.567913Z"
+    },
+    {
+      "fingerprint": "5a600a351a079df514f22092561c3db21680aaf5460088662794574044b81062",
+      "rule_id": "SEC-082",
+      "file_path": "internal/skill/lint_test.go",
+      "severity": "medium",
+      "reason": "Mock bearer token in test file - not a real secret",
+      "created_at": "2026-02-15T14:56:18.006905Z"
+    },
+    {
+      "fingerprint": "5a03a5a71c2e14955f0ba1a996491947c26cfb989f04c010f813638263c26d2f",
+      "rule_id": "SEC-161",
+      "file_path": "internal/skill/lint_test.go",
+      "severity": "medium",
+      "reason": "Mock high-entropy string in test file - not a real secret",
+      "created_at": "2026-02-15T14:56:33.041827Z"
+    },
+    {
+      "fingerprint": "1b4df1c8186cff9a90e65b58f63c72c9e8888a1c2d1908d8aff1bc14dd3f50e9",
+      "rule_id": "SEC-163",
+      "file_path": "internal/skill/lint_test.go",
+      "severity": "medium",
+      "reason": "Mock hex string in test file - not a real secret",
+      "created_at": "2026-02-15T14:56:46.330784Z"
+    },
+    {
+      "fingerprint": "59cad55f82d41b3763fb2f4d2c4cc2d02388eb163602e2eebe4b8d65ffe4a508",
+      "rule_id": "SEC-163",
+      "file_path": "internal/skill/lint_test.go",
+      "severity": "medium",
+      "reason": "Mock hex string in test file - not a real secret",
+      "created_at": "2026-02-15T14:57:00.572017Z"
     }
   ]
 }

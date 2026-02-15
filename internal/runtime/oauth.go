@@ -17,9 +17,11 @@ type OAuthCallbackResult struct {
 	Err   string
 }
 
+const defaultOAuthBindAddress = "127.0.0.1:0"
+
 func StartOAuthCallbackServer(ctx context.Context, addr string, expectedState string) (string, <-chan OAuthCallbackResult, func() error, error) {
 	if addr == "" {
-		addr = "127.0.0.1:0"
+		addr = defaultOAuthBindAddress
 	}
 
 	ln, err := net.Listen("tcp", addr)
