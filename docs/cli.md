@@ -1,71 +1,219 @@
 # CLI Usage
 
+AIOS provides a modern CLI with subcommands. Use `aios <command>` or `aios <parent> <subcommand>`.
+
 ## Global Flags
-- `--mode tray|cli` (default `tray`)
-- `--command <name>` (CLI mode only)
-- `--skill-dir <dir>` for skill commands, and as optional path for `restore-configs` / `export-status-report`
-- `--mcp-transport stdio|http|ws` and `--mcp-addr :8080` for `serve-mcp`
-- `--output text|json` for machine-readable responses
-- OAuth env overrides for `connect-google-drive`:
-  - `AIOS_OAUTH_TOKEN` bypasses callback and uses the provided token/code directly
-  - `AIOS_OAUTH_STATE` sets expected callback state (default `aios`)
-  - `AIOS_OAUTH_TIMEOUT_SEC` sets callback wait timeout (default `120`)
+- `--output text|json` - Output format (default: text)
+- `--verbose` - Enable verbose output
+- `-y, --yes` - Skip confirmation prompts for destructive operations
 
-## Commands
-- `status`: show runtime status and sync state
-- `tray-status`: show tray-facing skills + connections state
-- `version`: show version, commit, build date
-- `doctor`: run readiness checks for workspace/client dirs
-- `model-policy-packs`: inspect available model routing policy packs (`cost-first`, `quality-first`, `balanced`)
-- `analytics-summary`: export tracked project + workspace link summary in text or JSON
-- `analytics-record`: persist one analytics snapshot into `workspace/state/analytics-history.json`
-- `analytics-trend`: show trend summary from persisted analytics snapshots
-- `marketplace-publish`: publish a skill directory to local marketplace registry
-- `marketplace-list`: list marketplace listings from local registry
-- `marketplace-install`: install a marketplace skill by id (`--skill-dir <skill-id>`)
-- `marketplace-matrix`: show compatibility matrix summary (skill/client support + verification)
-- `audit-export`: export signed governance audit bundle (`--skill-dir <output-file>` optional)
-- `audit-verify`: verify signature of governance audit bundle (`--skill-dir <input-file>` optional)
-- `runtime-execution-report`: export structured runtime execution report (`--skill-dir <output-file>` optional)
-- `project-list`: list tracked projects/folders inventory
-- `project-add`: track a project folder (`--skill-dir <path>`)
-- `project-remove`: untrack by path or id (`--skill-dir <path-or-id>`)
-- `project-inspect`: inspect one tracked project by path or id (`--skill-dir <path-or-id>`)
-- `workspace-validate`: validate managed workspace symlinks for tracked projects
-- `workspace-plan`: show create/repair/skip actions for workspace symlinks
-- `workspace-repair`: apply create/repair actions for workspace symlinks
-- `tui`: open the terminal operations console (projects + workspace link operations)
-- `sync`: validate and install skill into all clients
-- `backup-configs`: snapshot Claude/Cursor/Windsurf config directories into `workspace/backups/<timestamp>`
-- `restore-configs`: restore configs from latest backup (or `--skill-dir <backup-dir>`)
-- `export-status-report`: write markdown readiness report (default `workspace/status-report.md` or `--skill-dir <output-file>`)
-- `connect-google-drive`: connect Google Drive via local OAuth callback or token override
-- `sync-plan`: dry-run listing of files that would be written
-- `test-skill`: run fixture suite in `<skill-dir>/tests`
-- `lint-skill`: run strict lint checks for skill structure and fixture pairing
-- `init-skill`: scaffold a skill directory
-- `serve-mcp`: run MCP server
-- `help`: print command reference
+## Skills
 
-## JSON Examples
+Manage skill lifecycle: create, sync, test, lint, package, and uninstall.
+
 ```bash
-./aios --mode cli --command status --output json
-./aios --mode cli --command sync-plan --skill-dir ./my-skill --output json
-./aios --mode cli --command version --output json
-./aios --mode cli --command restore-configs --output json
-./aios --mode cli --command export-status-report --skill-dir ./status.md --output json
-AIOS_OAUTH_TOKEN=demo-token ./aios --mode cli --command connect-google-drive --output json
-./aios --mode cli --command project-add --skill-dir ./repo-a --output json
-./aios --mode cli --command workspace-validate --output json
-./aios --mode cli --command workspace-repair --output json
-./aios --mode cli --command analytics-summary --output json
-./aios --mode cli --command analytics-record --output json
-./aios --mode cli --command analytics-trend --output json
-./aios --mode cli --command marketplace-publish --skill-dir ./my-skill --output json
-./aios --mode cli --command marketplace-list --output json
-./aios --mode cli --command marketplace-install --skill-dir roadmap-reader --output json
-./aios --mode cli --command marketplace-matrix --output json
-./aios --mode cli --command audit-export --output json
-./aios --mode cli --command audit-verify --output json
-./aios --mode cli --command runtime-execution-report --output json
+# Create a new skill scaffold
+aios skills init my-skill
+
+# Sync skill to all installed agents
+aios skills sync ./my-skill
+
+# Dry-run: see what would be written
+aios skills plan ./my-skill
+
+# Run fixture tests
+aios skills test ./my-skill
+
+# Lint skill structure
+aios skills lint ./my-skill
+
+# Package for distribution
+aios skills package ./my-skill
+
+# Uninstall from all agents
+aios skills uninstall ./my-skill
+```
+
+## Runtime & Status
+
+```bash
+# Show runtime health and status
+aios status
+
+# Show detailed version info
+aios version
+
+# Run diagnostic checks
+aios doctor
+
+# List detected agent clients
+aios list-clients
+
+# Show model policy packs
+aios model-policy-packs
+```
+
+## Projects
+
+Track and manage projects for skill routing.
+
+```bash
+# List tracked projects
+aios project list
+
+# Add a project
+aios project add ./my-project
+
+# Remove a project
+aios project remove my-project-id
+
+# Inspect project details
+aios project inspect my-project-id
+```
+
+## Workspace
+
+Validate and repair workspace symlinks.
+
+```bash
+# Check workspace health
+aios workspace validate
+
+# Plan repairs (dry-run)
+aios workspace plan
+
+# Apply repairs
+aios workspace repair
+```
+
+## Analytics
+
+Track usage trends and workspace metrics.
+
+```bash
+# Show analytics summary
+aios analytics summary
+
+# Record a snapshot
+aios analytics record
+
+# Show trends
+aios analytics trend
+```
+
+## Marketplace
+
+Publish and install skills from the marketplace.
+
+```bash
+# List available skills
+aios marketplace list
+
+# Install a skill
+aios marketplace install ddd-expert
+
+# Publish a skill
+aios marketplace publish ./my-skill
+
+# Show compatibility matrix
+aios marketplace matrix
+```
+
+## Governance
+
+Audit and compliance features.
+
+```bash
+# Export audit bundle
+aios audit export
+
+# Verify audit bundle
+aios audit verify ./audit.json
+```
+
+## Runtime
+
+Execution reporting.
+
+```bash
+# Export execution report
+aios runtime execution-report
+```
+
+## MCP Server
+
+Start the Model Context Protocol server.
+
+```bash
+# Stdio transport (default)
+aios mcp serve
+
+# HTTP transport
+aios mcp serve --transport http --addr :8080
+
+# WebSocket transport
+aios mcp serve --transport ws --addr :8081
+```
+
+## TUI
+
+Launch the interactive terminal UI.
+
+```bash
+aios tui
+```
+
+## Backup & Restore
+
+```bash
+# Backup client configs
+aios backup-configs
+
+# Restore from backup
+aios restore-configs
+aios restore-configs ./backup-2024-01-15
+```
+
+## OAuth
+
+Connect external services.
+
+```bash
+# Connect Google Drive
+aios connect-google-drive
+```
+
+Environment variables for OAuth:
+- `AIOS_OAUTH_TOKEN` - Bypass callback, use token directly
+- `AIOS_OAUTH_STATE` - Expected callback state (default: aios)
+- `AIOS_OAUTH_TIMEOUT_SEC` - Callback timeout in seconds (default: 120)
+
+## JSON Output
+
+All commands support `--output json` for machine-readable output.
+
+```bash
+aios status --output json
+aios list-clients --output json
+aios skills sync ./my-skill --output json
+```
+
+## Examples
+
+```bash
+# Full skill workflow
+aios skills init my-skill
+aios skills lint ./my-skill
+aios skills test ./my-skill
+aios skills sync ./my-skill
+aios skills package ./my-skill
+
+# Project setup
+aios project add ./my-project
+aios workspace validate
+aios workspace repair
+
+# Check system health
+aios doctor
+aios status
 ```
