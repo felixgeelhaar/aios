@@ -440,7 +440,7 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 			if err != nil {
 				return nil, err
 			}
-			if err := governance.WriteBundle(target, bundle); err != nil {
+			if err := (fileAuditBundleStore{}).WriteBundle(target, bundle); err != nil {
 				return nil, err
 			}
 			return map[string]any{"path": target, "signature": bundle.Signature, "records": len(bundle.Records)}, nil
@@ -450,7 +450,7 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 			if target == "" {
 				target = filepath.Join(cfg.WorkspaceDir, "audit", "bundle.json")
 			}
-			bundle, err := governance.LoadBundle(target)
+			bundle, err := (fileAuditBundleStore{}).LoadBundle(target)
 			if err != nil {
 				return nil, err
 			}

@@ -5,8 +5,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"os"
-	"path/filepath"
 	"time"
 )
 
@@ -24,6 +22,12 @@ type AuditBundle struct {
 	Records     []AuditRecord `json:"records"`
 }
 
+// AuditBundleStore abstracts export and import of signed audit bundles.
+type AuditBundleStore interface {
+	WriteBundle(path string, bundle AuditBundle) error
+	LoadBundle(path string) (AuditBundle, error)
+}
+
 func BuildBundle(records []AuditRecord) (AuditBundle, error) {
 	payload, err := json.Marshal(records)
 	if err != nil {
@@ -35,31 +39,6 @@ func BuildBundle(records []AuditRecord) (AuditBundle, error) {
 		Signature:   hex.EncodeToString(sum[:]),
 		Records:     records,
 	}, nil
-}
-
-func WriteBundle(path string, bundle AuditBundle) error {
-	body, err := json.MarshalIndent(bundle, "", "  ")
-	if err != nil {
-		return err
-	}
-	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
-		return err
-	}
-	return os.WriteFile(path, body, 0o600)
-}
-
-func LoadBundle(path string) (AuditBundle, error) {
-	path = filepath.Clean(path)
-	// #nosec G304 -- path is provided by explicit audit export/verify command input.
-	body, err := os.ReadFile(path)
-	if err != nil {
-		return AuditBundle{}, err
-	}
-	var bundle AuditBundle
-	if err := json.Unmarshal(body, &bundle); err != nil {
-		return AuditBundle{}, err
-	}
-	return bundle, nil
 }
 
 func VerifyBundle(bundle AuditBundle) error {

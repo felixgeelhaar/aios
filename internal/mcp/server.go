@@ -606,7 +606,7 @@ func NewServerWithDeps(version string, deps ServerDeps) *mcpg.Server {
 			if err != nil {
 				return nil, err
 			}
-			if err := governance.WriteBundle(target, bundle); err != nil {
+			if err := (mcpAuditBundleStore{}).WriteBundle(target, bundle); err != nil {
 				return nil, err
 			}
 			return map[string]any{
@@ -623,7 +623,7 @@ func NewServerWithDeps(version string, deps ServerDeps) *mcpg.Server {
 			if strings.TrimSpace(target) == "" {
 				target = filepath.Join(mcpWorkspaceDir(), "audit", "bundle.json")
 			}
-			bundle, err := governance.LoadBundle(target)
+			bundle, err := (mcpAuditBundleStore{}).LoadBundle(target)
 			if err != nil {
 				return nil, err
 			}
@@ -872,4 +872,32 @@ func NewServerWithDeps(version string, deps ServerDeps) *mcpg.Server {
 		})
 
 	return srv
+}
+
+// mcpAuditBundleStore implements governance.AuditBundleStore for MCP handlers.
+type mcpAuditBundleStore struct{}
+
+func (mcpAuditBundleStore) WriteBundle(path string, bundle governance.AuditBundle) error {
+	body, err := json.MarshalIndent(bundle, "", "  ")
+	if err != nil {
+		return err
+	}
+	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
+		return err
+	}
+	return os.WriteFile(path, body, 0o600)
+}
+
+func (mcpAuditBundleStore) LoadBundle(path string) (governance.AuditBundle, error) {
+	path = filepath.Clean(path)
+	// #nosec G304 -- path is provided by explicit audit export/verify command input.
+	body, err := os.ReadFile(path)
+	if err != nil {
+		return governance.AuditBundle{}, err
+	}
+	var bundle governance.AuditBundle
+	if err := json.Unmarshal(body, &bundle); err != nil {
+		return governance.AuditBundle{}, err
+	}
+	return bundle, nil
 }
