@@ -178,12 +178,12 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 			return RunDoctor(cfg)
 		},
 		ListClients: func() map[string]any {
-			collect := func(root string) []string {
-				out := []string{}
+			collect := func(root string) ([]string, bool) {
 				entries, err := os.ReadDir(root)
 				if err != nil {
-					return out
+					return nil, false
 				}
+				out := make([]string, 0, len(entries))
 				for _, e := range entries {
 					if e.IsDir() {
 						out = append(out, e.Name()+"/")
@@ -191,18 +191,32 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 						out = append(out, e.Name())
 					}
 				}
-				return out
+				return out, true
 			}
 			allAgents, err := agents.LoadAll()
 			if err != nil {
 				return map[string]any{"error": err.Error()}
 			}
-			result := make(map[string]any, len(allAgents))
-			for _, agent := range allAgents {
+			installedAgents := agents.DetectInstalled(allAgents)
+			if len(installedAgents) == 0 {
+				return map[string]any{"status": "no_clients_detected", "message": "No AI clients found. Install Cursor, Claude Code, Windsurf, or other supported agents."}
+			}
+			result := make(map[string]any, len(installedAgents))
+			for _, agent := range installedAgents {
 				agentDir := filepath.Join(cfg.ProjectDir, agent.SkillsDir)
-				result[agent.Name] = map[string]any{
-					"path":  agentDir,
-					"files": collect(agentDir),
+				files, ok := collect(agentDir)
+				if !ok {
+					result[agent.Name] = map[string]any{
+						"path":      agentDir,
+						"installed": false,
+						"skills":    []string{},
+					}
+				} else {
+					result[agent.Name] = map[string]any{
+						"path":      agentDir,
+						"installed": true,
+						"skills":    files,
+					}
 				}
 			}
 			return result

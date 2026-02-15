@@ -29,7 +29,7 @@
     "displayName": "Codex",
     "skillsDir": ".agents/skills",
     "globalSkillsDir": "$CODEX_HOME/skills",
-    "detectPaths": ["$CODEX_HOME", "/etc/codex"],
+    "detectPaths": ["~/.codex", "$CODEX_HOME", "/etc/codex"],
     "universal": true
   },
   {
