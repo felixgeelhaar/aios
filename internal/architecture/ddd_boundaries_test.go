@@ -77,6 +77,46 @@ func TestDomainNoLogging(t *testing.T) {
 	})
 }
 
+// TestGovernanceNoIO ensures the governance package never imports I/O standard
+// library packages. After extracting WriteBundle/LoadBundle into adapter ports,
+// governance must remain free of filesystem side effects.
+func TestGovernanceNoIO(t *testing.T) {
+	repoRoot := findRepoRoot(t)
+	forbiddenStdlib := []string{
+		"os",
+		"io",
+		"io/fs",
+		"net",
+		"net/http",
+		"net/url",
+		"database/sql",
+		"os/exec",
+		"os/signal",
+		"syscall",
+	}
+	checkNoExactImports(t, filepath.Join(repoRoot, "internal", "governance"), forbiddenStdlib)
+}
+
+// TestObservabilityNoIO ensures the observability package never imports I/O
+// standard library packages. After extracting AppendSnapshot/LoadSnapshots
+// into adapter ports, observability must remain free of filesystem side effects.
+func TestObservabilityNoIO(t *testing.T) {
+	repoRoot := findRepoRoot(t)
+	forbiddenStdlib := []string{
+		"os",
+		"io",
+		"io/fs",
+		"net",
+		"net/http",
+		"net/url",
+		"database/sql",
+		"os/exec",
+		"os/signal",
+		"syscall",
+	}
+	checkNoExactImports(t, filepath.Join(repoRoot, "internal", "observability"), forbiddenStdlib)
+}
+
 // TestDomainBoundedContextIsolation ensures each bounded context in the domain
 // layer owns its own model and does not import from other bounded contexts.
 // Cross-BC coordination must happen at the application layer.
