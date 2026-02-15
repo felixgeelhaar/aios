@@ -88,7 +88,7 @@ func TestCatalogAllReturnsDefensiveCopy(t *testing.T) {
 	all := c.All()
 	// Mutate the returned slice.
 	all[0].SkillID = "hacked"
-	all = append(all, Listing{SkillID: "injected"})
+	_ = append(all, Listing{SkillID: "injected"})
 
 	// Original catalog must be unaffected.
 	fresh := c.All()
