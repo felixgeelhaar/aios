@@ -24,7 +24,7 @@ type fakeInstaller struct {
 	err     error
 }
 
-func (f *fakeInstaller) InstallSkillAcrossClients(_ context.Context, skillID string) error {
+func (f *fakeInstaller) InstallSkillAcrossClients(_ context.Context, skillID string, _ string) error {
 	f.called = true
 	f.skillID = skillID
 	return f.err

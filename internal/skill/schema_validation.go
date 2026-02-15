@@ -6,15 +6,17 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
 
 type SkillSpec struct {
-	ID      string `yaml:"id"`
-	Name    string `yaml:"name"`
-	Version string `yaml:"version"`
-	Inputs  struct {
+	ID          string `yaml:"id"`
+	Name        string `yaml:"name"`
+	Version     string `yaml:"version"`
+	Description string `yaml:"description"`
+	Inputs      struct {
 		Schema string `yaml:"schema"`
 	} `yaml:"inputs"`
 	Outputs struct {
@@ -63,6 +65,46 @@ func ValidateSkillSpec(baseDir string, spec SkillSpec) error {
 		return fmt.Errorf("invalid output schema: %w", err)
 	}
 	return nil
+}
+
+// BuildSkillMd composes a SKILL.md from a spec and prompt body. The result
+// follows the Claude Code SKILL.md frontmatter format with name, description,
+// and allowed-tools fields followed by the prompt content.
+func BuildSkillMd(spec SkillSpec, promptBody string) string {
+	name := spec.Name
+	if name == "" {
+		name = spec.ID
+	}
+	desc := spec.Description
+	var b strings.Builder
+	b.WriteString("---\n")
+	fmt.Fprintf(&b, "name: %s\n", name)
+	fmt.Fprintf(&b, "description: %s\n", desc)
+	b.WriteString("allowed-tools: Read, Grep, Glob\n")
+	b.WriteString("---\n")
+	if promptBody != "" {
+		b.WriteString("\n")
+		b.WriteString(strings.TrimRight(promptBody, "\n"))
+		b.WriteString("\n")
+	}
+	return b.String()
+}
+
+// LoadAndBuildSkillMd reads skill.yaml and prompt.md from skillDir and returns
+// the composed SKILL.md content.
+func LoadAndBuildSkillMd(skillDir string) (string, error) {
+	spec, err := LoadSkillSpec(filepath.Join(skillDir, "skill.yaml"))
+	if err != nil {
+		return "", err
+	}
+	promptPath := filepath.Join(filepath.Clean(skillDir), "prompt.md")
+	// #nosec G304 -- path is derived from validated skill directory.
+	promptData, err := os.ReadFile(promptPath)
+	if err != nil {
+		// prompt.md is optional; fall back to spec-only SKILL.md.
+		return BuildSkillMd(spec, ""), nil
+	}
+	return BuildSkillMd(spec, string(promptData)), nil
 }
 
 func ValidateJSONSchema(path string) error {

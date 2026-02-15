@@ -17,7 +17,7 @@ type SkillSpecResolver interface {
 }
 
 type ClientInstaller interface {
-	InstallSkillAcrossClients(ctx context.Context, skillID string) error
+	InstallSkillAcrossClients(ctx context.Context, skillID string, skillDir string) error
 }
 
 func (c SyncSkillCommand) Normalized() SyncSkillCommand {

@@ -113,6 +113,78 @@ func TestValidateJSONSchemaRejectsMalformedJSON(t *testing.T) {
 	}
 }
 
+func TestBuildSkillMd_WithDescriptionAndPrompt(t *testing.T) {
+	spec := SkillSpec{ID: "my-skill", Description: "A helpful skill."}
+	got := BuildSkillMd(spec, "# Instructions\n\nDo the thing.\n")
+	if !strings.Contains(got, "name: my-skill") {
+		t.Error("expected name from ID")
+	}
+	if !strings.Contains(got, "description: A helpful skill.") {
+		t.Error("expected description")
+	}
+	if !strings.Contains(got, "# Instructions") {
+		t.Error("expected prompt body")
+	}
+}
+
+func TestBuildSkillMd_UsesNameOverID(t *testing.T) {
+	spec := SkillSpec{ID: "my-skill", Name: "My Custom Skill", Description: "desc"}
+	got := BuildSkillMd(spec, "")
+	if !strings.Contains(got, "name: My Custom Skill") {
+		t.Errorf("expected Name field used, got:\n%s", got)
+	}
+}
+
+func TestBuildSkillMd_EmptyPrompt(t *testing.T) {
+	spec := SkillSpec{ID: "bare", Description: "minimal"}
+	got := BuildSkillMd(spec, "")
+	if strings.Contains(got, "\n\n\n") {
+		t.Error("expected no extra blank lines when prompt is empty")
+	}
+	if !strings.HasSuffix(got, "---\n") {
+		t.Errorf("expected to end with frontmatter close, got:\n%s", got)
+	}
+}
+
+func TestLoadAndBuildSkillMd_ReadsFilesFromDisk(t *testing.T) {
+	dir := t.TempDir()
+	yamlContent := "id: disk-skill\nversion: 1.0.0\ndescription: From disk.\ninputs:\n  schema: in.json\noutputs:\n  schema: out.json\n"
+	if err := os.WriteFile(filepath.Join(dir, "skill.yaml"), []byte(yamlContent), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "prompt.md"), []byte("# Review\n\nCheck things.\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	got, err := LoadAndBuildSkillMd(dir)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !strings.Contains(got, "description: From disk.") {
+		t.Error("expected description from skill.yaml")
+	}
+	if !strings.Contains(got, "# Review") {
+		t.Error("expected prompt.md content")
+	}
+}
+
+func TestLoadAndBuildSkillMd_NoPromptMd(t *testing.T) {
+	dir := t.TempDir()
+	yamlContent := "id: no-prompt\nversion: 1.0.0\ndescription: No prompt.\ninputs:\n  schema: in.json\noutputs:\n  schema: out.json\n"
+	if err := os.WriteFile(filepath.Join(dir, "skill.yaml"), []byte(yamlContent), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	got, err := LoadAndBuildSkillMd(dir)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !strings.Contains(got, "name: no-prompt") {
+		t.Error("expected fallback name from ID")
+	}
+	if !strings.HasSuffix(got, "---\n") {
+		t.Errorf("expected to end with frontmatter close when no prompt, got:\n%s", got)
+	}
+}
+
 // AC1+AC2: ValidateSkillSpec rejects specs missing required fields.
 func TestValidateSkillSpecRejectsMissingFields(t *testing.T) {
 	// Helper to write valid schema files so we isolate spec-level validation.

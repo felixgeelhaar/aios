@@ -33,6 +33,11 @@ type InstallOptions struct {
 	// TargetAgents is the explicit list of agents to install for.
 	// If nil, defaults to all agents.
 	TargetAgents []agentregistry.AgentDefinition
+
+	// SkillContent is the full SKILL.md content to write. When non-empty,
+	// this replaces the default stub marker. Typically composed from
+	// skill.yaml metadata and prompt.md body by the caller.
+	SkillContent string
 }
 
 // InstallResult represents the outcome of a skill installation.
@@ -65,9 +70,15 @@ func (si *SkillInstaller) InstallSkill(skillID string, opts InstallOptions) (*In
 		return nil, fmt.Errorf("creating canonical dir: %w", err)
 	}
 
-	// Write skill marker file.
+	// Write skill marker file. If SkillContent is provided, always write it
+	// (overwriting any previous stub). Otherwise, write a default stub only
+	// when no SKILL.md exists yet.
 	markerPath := filepath.Join(canonicalDir, "SKILL.md")
-	if _, err := os.Stat(markerPath); os.IsNotExist(err) {
+	if opts.SkillContent != "" {
+		if err := os.WriteFile(markerPath, []byte(opts.SkillContent), 0o644); err != nil {
+			return nil, fmt.Errorf("writing SKILL.md: %w", err)
+		}
+	} else if _, err := os.Stat(markerPath); os.IsNotExist(err) {
 		content := fmt.Sprintf("---\nname: %s\ndescription: \"\"\n---\n", skillID)
 		if err := os.WriteFile(markerPath, []byte(content), 0o644); err != nil {
 			return nil, fmt.Errorf("writing SKILL.md: %w", err)

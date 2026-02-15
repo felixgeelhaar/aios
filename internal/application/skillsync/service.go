@@ -27,7 +27,7 @@ func (s Service) SyncSkill(ctx context.Context, command domain.SyncSkillCommand)
 	if err != nil {
 		return "", err
 	}
-	if err := s.installer.InstallSkillAcrossClients(ctx, skillID); err != nil {
+	if err := s.installer.InstallSkillAcrossClients(ctx, skillID, cmd.SkillDir); err != nil {
 		return "", err
 	}
 	return skillID, nil

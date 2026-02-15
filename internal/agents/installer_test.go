@@ -168,6 +168,56 @@ func TestInstallSkill_EmptyProjectDir(t *testing.T) {
 	}
 }
 
+func TestInstallSkill_WritesRichSkillContent(t *testing.T) {
+	tmp := t.TempDir()
+	si := NewSkillInstaller(testAgentDefs())
+	content := "---\nname: Rich Skill\ndescription: A rich skill.\n---\n\n# Instructions\n\nDo things.\n"
+
+	_, err := si.InstallSkill("rich-skill", InstallOptions{
+		ProjectDir:   tmp,
+		SkillContent: content,
+	})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	markerPath := filepath.Join(tmp, agentregistry.CanonicalSkillsDir, "rich-skill", "SKILL.md")
+	data, err := os.ReadFile(markerPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(data) != content {
+		t.Errorf("expected rich content, got:\n%s", string(data))
+	}
+}
+
+func TestInstallSkill_SkillContentOverwritesExisting(t *testing.T) {
+	tmp := t.TempDir()
+	si := NewSkillInstaller(testAgentDefs())
+
+	// First install creates stub.
+	if _, err := si.InstallSkill("overwrite-skill", InstallOptions{ProjectDir: tmp}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Second install with SkillContent should overwrite.
+	newContent := "---\nname: Updated\n---\n\nNew content.\n"
+	if _, err := si.InstallSkill("overwrite-skill", InstallOptions{
+		ProjectDir:   tmp,
+		SkillContent: newContent,
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	data, err := os.ReadFile(filepath.Join(tmp, agentregistry.CanonicalSkillsDir, "overwrite-skill", "SKILL.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(data) != newContent {
+		t.Errorf("expected overwritten content, got:\n%s", string(data))
+	}
+}
+
 func TestInstallSkill_DoesNotOverwriteExistingSkillMd(t *testing.T) {
 	tmp := t.TempDir()
 	si := NewSkillInstaller(testAgentDefs())

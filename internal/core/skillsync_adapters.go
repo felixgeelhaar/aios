@@ -28,14 +28,17 @@ type clientInstallerAdapter struct {
 	cfg Config
 }
 
-func (a clientInstallerAdapter) InstallSkillAcrossClients(_ context.Context, skillID string) error {
+func (a clientInstallerAdapter) InstallSkillAcrossClients(_ context.Context, skillID string, skillDir string) error {
 	allAgents, err := agents.LoadAll()
 	if err != nil {
 		return fmt.Errorf("loading agents: %w", err)
 	}
+	// Compose rich SKILL.md from skill.yaml + prompt.md.
+	skillContent, _ := skill.LoadAndBuildSkillMd(skillDir)
 	si := agents.NewSkillInstaller(allAgents)
 	_, installErr := si.InstallSkill(skillID, agents.InstallOptions{
-		ProjectDir: a.cfg.ProjectDir,
+		ProjectDir:   a.cfg.ProjectDir,
+		SkillContent: skillContent,
 	})
 	return installErr
 }
