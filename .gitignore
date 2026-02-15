@@ -1,5 +1,6 @@
 .cover/
 coverage.out
+*.out
 findings.json
 __pycache__/
 .DS_Store
