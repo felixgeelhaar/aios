@@ -1,21 +1,25 @@
 package runtime
 
 import (
-	"path/filepath"
 	"testing"
 )
 
-func TestBuildAndWriteExecutionReport(t *testing.T) {
+func TestBuildExecutionReport(t *testing.T) {
 	report := BuildExecutionReport(ExecutionPlan{
 		SkillID: "roadmap-reader",
 		Version: "0.1.0",
 		Model:   "gpt-4.1",
 	}, "ok")
 	if report.SkillID != "roadmap-reader" {
-		t.Fatalf("unexpected report: %#v", report)
+		t.Fatalf("unexpected skill_id: %s", report.SkillID)
 	}
-	path := filepath.Join(t.TempDir(), "state", "execution-report.json")
-	if err := WriteExecutionReport(path, report); err != nil {
-		t.Fatalf("write report failed: %v", err)
+	if report.Version != "0.1.0" {
+		t.Fatalf("unexpected version: %s", report.Version)
+	}
+	if report.ExecutionOutcome != "ok" {
+		t.Fatalf("unexpected outcome: %s", report.ExecutionOutcome)
+	}
+	if report.GeneratedAt == "" {
+		t.Fatal("expected non-empty GeneratedAt")
 	}
 }

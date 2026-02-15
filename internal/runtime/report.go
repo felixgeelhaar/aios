@@ -1,9 +1,6 @@
 package runtime
 
 import (
-	"encoding/json"
-	"os"
-	"path/filepath"
 	"time"
 )
 
@@ -16,6 +13,11 @@ type ExecutionReport struct {
 	ExecutionOutcome string `json:"execution_outcome"`
 }
 
+// ExecutionReportStore abstracts persistence of runtime execution reports.
+type ExecutionReportStore interface {
+	WriteReport(path string, report ExecutionReport) error
+}
+
 func BuildExecutionReport(plan ExecutionPlan, outcome string) ExecutionReport {
 	return ExecutionReport{
 		GeneratedAt:      time.Now().UTC().Format(time.RFC3339),
@@ -25,15 +27,4 @@ func BuildExecutionReport(plan ExecutionPlan, outcome string) ExecutionReport {
 		PolicyTelemetry:  plan.PolicyTelemetry,
 		ExecutionOutcome: outcome,
 	}
-}
-
-func WriteExecutionReport(path string, report ExecutionReport) error {
-	body, err := json.MarshalIndent(report, "", "  ")
-	if err != nil {
-		return err
-	}
-	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
-		return err
-	}
-	return os.WriteFile(path, body, 0o600)
 }

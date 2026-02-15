@@ -649,7 +649,7 @@ func NewServerWithDeps(version string, deps ServerDeps) *mcpg.Server {
 				return nil, err
 			}
 			report := runtime.BuildExecutionReport(plan, "ok")
-			if err := runtime.WriteExecutionReport(target, report); err != nil {
+			if err := (mcpExecutionReportStore{}).WriteReport(target, report); err != nil {
 				return nil, err
 			}
 			return map[string]any{"path": target, "skill_id": report.SkillID, "model": report.Model}, nil
@@ -939,4 +939,18 @@ func (mcpSnapshotStore) LoadAll(path string) ([]observability.Snapshot, error) {
 		return nil, err
 	}
 	return history, nil
+}
+
+// mcpExecutionReportStore implements runtime.ExecutionReportStore for MCP handlers.
+type mcpExecutionReportStore struct{}
+
+func (mcpExecutionReportStore) WriteReport(path string, report runtime.ExecutionReport) error {
+	body, err := json.MarshalIndent(report, "", "  ")
+	if err != nil {
+		return err
+	}
+	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
+		return err
+	}
+	return os.WriteFile(path, body, 0o600)
 }

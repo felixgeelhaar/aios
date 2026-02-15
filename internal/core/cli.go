@@ -476,7 +476,7 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 				return nil, err
 			}
 			report := runtime.BuildExecutionReport(plan, "ok")
-			if err := runtime.WriteExecutionReport(target, report); err != nil {
+			if err := (fileExecutionReportStore{}).WriteReport(target, report); err != nil {
 				return nil, err
 			}
 			return map[string]any{"path": target, "model": report.Model, "skill_id": report.SkillID}, nil
