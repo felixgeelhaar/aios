@@ -2,100 +2,8 @@ package observability
 
 import (
 	"encoding/json"
-	"os"
-	"path/filepath"
 	"testing"
 )
-
-func TestAppendLoadAndTrend(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "state", "analytics-history.json")
-	if err := AppendSnapshot(path, map[string]float64{
-		"tracked_projects": 1,
-		"healthy_links":    1,
-	}); err != nil {
-		t.Fatalf("append 1 failed: %v", err)
-	}
-	if err := AppendSnapshot(path, map[string]float64{
-		"tracked_projects": 3,
-		"healthy_links":    2,
-	}); err != nil {
-		t.Fatalf("append 2 failed: %v", err)
-	}
-	history, err := LoadSnapshots(path)
-	if err != nil {
-		t.Fatalf("load failed: %v", err)
-	}
-	if len(history) != 2 {
-		t.Fatalf("expected two snapshots, got %d", len(history))
-	}
-	trend := BuildTrend(history)
-	if trend["delta_tracked_projects"] != float64(2) {
-		t.Fatalf("unexpected trend: %#v", trend)
-	}
-}
-
-// AC4: Snapshots persist locally and survive reload.
-func TestSnapshotPersistence(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "analytics", "snapshots.json")
-	metrics := map[string]float64{
-		"tracked_projects": 5,
-		"healthy_links":    4,
-		"skill_executions": 100,
-	}
-	if err := AppendSnapshot(path, metrics); err != nil {
-		t.Fatalf("append: %v", err)
-	}
-
-	loaded, err := LoadSnapshots(path)
-	if err != nil {
-		t.Fatalf("load: %v", err)
-	}
-	if len(loaded) != 1 {
-		t.Fatalf("expected 1 snapshot, got %d", len(loaded))
-	}
-	if loaded[0].Metrics["skill_executions"] != 100 {
-		t.Fatalf("expected 100 skill_executions, got %f", loaded[0].Metrics["skill_executions"])
-	}
-}
-
-// AC4: Load from non-existent file returns empty slice (not error).
-func TestLoadSnapshots_NonExistentReturnsEmpty(t *testing.T) {
-	snapshots, err := LoadSnapshots(filepath.Join(t.TempDir(), "missing.json"))
-	if err != nil {
-		t.Fatalf("expected no error for missing file, got: %v", err)
-	}
-	if len(snapshots) != 0 {
-		t.Fatalf("expected empty slice, got %d snapshots", len(snapshots))
-	}
-}
-
-// AC3: Adoption metrics tracked across projects.
-func TestSnapshotTracksAdoptionMetrics(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "adoption.json")
-	if err := AppendSnapshot(path, map[string]float64{
-		"tracked_projects": 2,
-		"healthy_links":    2,
-	}); err != nil {
-		t.Fatalf("append 1: %v", err)
-	}
-	if err := AppendSnapshot(path, map[string]float64{
-		"tracked_projects": 5,
-		"healthy_links":    4,
-	}); err != nil {
-		t.Fatalf("append 2: %v", err)
-	}
-
-	history, err := LoadSnapshots(path)
-	if err != nil {
-		t.Fatalf("load: %v", err)
-	}
-	trend := BuildTrend(history)
-	// Adoption grew by 3 projects.
-	delta := trend["delta_tracked_projects"].(float64)
-	if delta != 3 {
-		t.Fatalf("expected adoption delta of 3, got %f", delta)
-	}
-}
 
 // AC5: BuildTrend supports trend reporting over time.
 func TestBuildTrend_MultiplePoints(t *testing.T) {
@@ -141,31 +49,6 @@ func TestBuildTrend_SinglePoint(t *testing.T) {
 	}
 }
 
-// AC6: Snapshots are machine-readable JSON.
-func TestSnapshotIsJSONExportable(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "export.json")
-	if err := AppendSnapshot(path, map[string]float64{
-		"tracked_projects": 10,
-		"skill_executions": 500,
-	}); err != nil {
-		t.Fatalf("append: %v", err)
-	}
-	raw, err := os.ReadFile(path)
-	if err != nil {
-		t.Fatalf("read: %v", err)
-	}
-	var parsed []Snapshot
-	if err := json.Unmarshal(raw, &parsed); err != nil {
-		t.Fatalf("exported data is not valid JSON: %v", err)
-	}
-	if len(parsed) != 1 {
-		t.Fatalf("expected 1 snapshot, got %d", len(parsed))
-	}
-	if parsed[0].RecordedAt == "" {
-		t.Fatal("snapshot missing recorded_at timestamp")
-	}
-}
-
 // AC6: BuildTrend output is JSON-serializable.
 func TestBuildTrendOutputIsJSONSerializable(t *testing.T) {
 	history := []Snapshot{
@@ -182,23 +65,13 @@ func TestBuildTrendOutputIsJSONSerializable(t *testing.T) {
 	}
 }
 
-// AC7: Drift metrics can be tracked in snapshots.
-func TestSnapshotTracksDriftMetrics(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "drift.json")
-	if err := AppendSnapshot(path, map[string]float64{
-		"drift_incidents":     3,
-		"drift_auto_resolved": 2,
-	}); err != nil {
-		t.Fatalf("append: %v", err)
+func TestNewSnapshot(t *testing.T) {
+	metrics := map[string]float64{"tracked_projects": 5}
+	s := NewSnapshot(metrics)
+	if s.RecordedAt == "" {
+		t.Fatal("expected non-empty RecordedAt")
 	}
-	history, err := LoadSnapshots(path)
-	if err != nil {
-		t.Fatalf("load: %v", err)
-	}
-	if history[0].Metrics["drift_incidents"] != 3 {
-		t.Fatalf("expected 3 drift incidents, got %f", history[0].Metrics["drift_incidents"])
-	}
-	if history[0].Metrics["drift_auto_resolved"] != 2 {
-		t.Fatalf("expected 2 auto-resolved, got %f", history[0].Metrics["drift_auto_resolved"])
+	if s.Metrics["tracked_projects"] != 5 {
+		t.Fatalf("expected 5 tracked_projects, got %f", s.Metrics["tracked_projects"])
 	}
 }

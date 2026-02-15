@@ -761,7 +761,7 @@ func NewServerWithDeps(version string, deps ServerDeps) *mcpg.Server {
 		MimeType("application/json").
 		Handler(func(_ context.Context, uri string, _ map[string]string) (*mcpg.ResourceContent, error) {
 			historyPath := filepath.Join(mcpWorkspaceDir(), "state", "analytics-history.json")
-			history, err := observability.LoadSnapshots(historyPath)
+			history, err := (mcpSnapshotStore{}).LoadAll(historyPath)
 			if err != nil {
 				return nil, err
 			}
@@ -900,4 +900,43 @@ func (mcpAuditBundleStore) LoadBundle(path string) (governance.AuditBundle, erro
 		return governance.AuditBundle{}, err
 	}
 	return bundle, nil
+}
+
+// mcpSnapshotStore implements observability.SnapshotStore for MCP handlers.
+type mcpSnapshotStore struct{}
+
+func (mcpSnapshotStore) Append(path string, snapshot observability.Snapshot) error {
+	history, err := (mcpSnapshotStore{}).LoadAll(path)
+	if err != nil {
+		return err
+	}
+	history = append(history, snapshot)
+	body, err := json.MarshalIndent(history, "", "  ")
+	if err != nil {
+		return err
+	}
+	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
+		return err
+	}
+	return os.WriteFile(path, body, 0o600)
+}
+
+func (mcpSnapshotStore) LoadAll(path string) ([]observability.Snapshot, error) {
+	path = filepath.Clean(path)
+	// #nosec G304 -- path is managed by runtime workspace configuration.
+	body, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return []observability.Snapshot{}, nil
+		}
+		return nil, err
+	}
+	if len(body) == 0 {
+		return []observability.Snapshot{}, nil
+	}
+	var history []observability.Snapshot
+	if err := json.Unmarshal(body, &history); err != nil {
+		return nil, err
+	}
+	return history, nil
 }

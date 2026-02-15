@@ -317,10 +317,10 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 				"workspace_links":  float64(len(workspace.Links)),
 				"healthy_links":    float64(healthyLinks),
 			}
-			if err := observability.AppendSnapshot(historyPath, metrics); err != nil {
+			if err := (fileSnapshotStore{}).Append(historyPath, observability.NewSnapshot(metrics)); err != nil {
 				return nil, err
 			}
-			history, err := observability.LoadSnapshots(historyPath)
+			history, err := (fileSnapshotStore{}).LoadAll(historyPath)
 			if err != nil {
 				return nil, err
 			}
@@ -332,7 +332,7 @@ func DefaultCLI(out io.Writer, cfg Config) CLI {
 		},
 		AnalyticsTrend: func(context.Context) (map[string]any, error) {
 			historyPath := filepath.Join(cfg.WorkspaceDir, "state", "analytics-history.json")
-			history, err := observability.LoadSnapshots(historyPath)
+			history, err := (fileSnapshotStore{}).LoadAll(historyPath)
 			if err != nil {
 				return nil, err
 			}

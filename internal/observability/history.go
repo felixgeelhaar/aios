@@ -1,9 +1,6 @@
 package observability
 
 import (
-	"encoding/json"
-	"os"
-	"path/filepath"
 	"time"
 )
 
@@ -12,43 +9,18 @@ type Snapshot struct {
 	Metrics    map[string]float64 `json:"metrics"`
 }
 
-func AppendSnapshot(path string, metrics map[string]float64) error {
-	history, err := LoadSnapshots(path)
-	if err != nil {
-		return err
-	}
-	history = append(history, Snapshot{
-		RecordedAt: time.Now().UTC().Format(time.RFC3339),
-		Metrics:    metrics,
-	})
-	body, err := json.MarshalIndent(history, "", "  ")
-	if err != nil {
-		return err
-	}
-	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
-		return err
-	}
-	return os.WriteFile(path, body, 0o600)
+// SnapshotStore abstracts persistence of observability snapshots.
+type SnapshotStore interface {
+	Append(path string, snapshot Snapshot) error
+	LoadAll(path string) ([]Snapshot, error)
 }
 
-func LoadSnapshots(path string) ([]Snapshot, error) {
-	path = filepath.Clean(path)
-	// #nosec G304 -- path is managed by runtime workspace configuration.
-	body, err := os.ReadFile(path)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return []Snapshot{}, nil
-		}
-		return nil, err
+// NewSnapshot constructs a Snapshot with the current timestamp.
+func NewSnapshot(metrics map[string]float64) Snapshot {
+	return Snapshot{
+		RecordedAt: time.Now().UTC().Format(time.RFC3339),
+		Metrics:    metrics,
 	}
-	if len(body) == 0 {
-		return []Snapshot{}, nil
-	}
-	var history []Snapshot
-	if err := json.Unmarshal(body, &history); err != nil {
-		return nil, err
-	}
-	return history, nil
 }
 
 func BuildTrend(history []Snapshot) map[string]any {
