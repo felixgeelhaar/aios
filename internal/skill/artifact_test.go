@@ -1,6 +1,9 @@
 package skill
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestArtifactValidate(t *testing.T) {
 	a := Artifact{ID: "roadmap-reader", Version: "0.1.0", InputSchema: "in.json", OutputSchema: "out.json"}
@@ -100,5 +103,56 @@ func TestExecutorRejectsEmptyInput(t *testing.T) {
 	_, err := e.Execute(a, nil)
 	if err == nil {
 		t.Fatal("expected error for nil input")
+	}
+}
+
+func TestExecutor_RegisteredHandler(t *testing.T) {
+	a := Artifact{ID: "custom-skill", Version: "1.0.0", InputSchema: "in.json", OutputSchema: "out.json"}
+	e := NewExecutor()
+	e.RegisterHandler("custom-skill", func(_ Artifact, input map[string]any) (map[string]any, error) {
+		return map[string]any{"echo": input["query"], "custom": true}, nil
+	})
+	out, err := e.Execute(a, map[string]any{"query": "hello"})
+	if err != nil {
+		t.Fatalf("execute failed: %v", err)
+	}
+	if out["echo"] != "hello" {
+		t.Fatalf("expected echo=hello, got %v", out["echo"])
+	}
+	if out["custom"] != true {
+		t.Fatalf("expected custom=true, got %v", out["custom"])
+	}
+}
+
+func TestExecutor_FallbackWhenNoHandler(t *testing.T) {
+	a := Artifact{ID: "unregistered", Version: "1.0.0", InputSchema: "in.json", OutputSchema: "out.json"}
+	e := NewExecutor()
+	e.RegisterHandler("other-skill", func(_ Artifact, _ map[string]any) (map[string]any, error) {
+		return map[string]any{"should": "not reach"}, nil
+	})
+	out, err := e.Execute(a, map[string]any{"query": "x"})
+	if err != nil {
+		t.Fatalf("execute failed: %v", err)
+	}
+	if out["status"] != "ok" {
+		t.Fatalf("expected fallback status=ok, got %v", out["status"])
+	}
+	if out["skill_id"] != "unregistered" {
+		t.Fatalf("expected skill_id=unregistered, got %v", out["skill_id"])
+	}
+}
+
+func TestExecutor_HandlerError(t *testing.T) {
+	a := Artifact{ID: "failing-skill", Version: "1.0.0", InputSchema: "in.json", OutputSchema: "out.json"}
+	e := NewExecutor()
+	e.RegisterHandler("failing-skill", func(_ Artifact, _ map[string]any) (map[string]any, error) {
+		return nil, fmt.Errorf("handler failed")
+	})
+	_, err := e.Execute(a, map[string]any{"query": "x"})
+	if err == nil {
+		t.Fatal("expected error from handler")
+	}
+	if err.Error() != "handler failed" {
+		t.Fatalf("expected 'handler failed', got %q", err.Error())
 	}
 }

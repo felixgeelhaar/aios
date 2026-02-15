@@ -13,7 +13,14 @@ type FixtureResult struct {
 	Error  string
 }
 
+// RunFixtureSuite runs fixture tests using a default executor (stub fallback).
 func RunFixtureSuite(skillDir string) ([]FixtureResult, error) {
+	return RunFixtureSuiteWithExecutor(skillDir, NewExecutor())
+}
+
+// RunFixtureSuiteWithExecutor runs fixture tests using the provided executor,
+// allowing callers to register custom handlers before running.
+func RunFixtureSuiteWithExecutor(skillDir string, exec *Executor) ([]FixtureResult, error) {
 	spec, err := LoadSkillSpec(filepath.Join(skillDir, "skill.yaml"))
 	if err != nil {
 		return nil, err
@@ -28,7 +35,6 @@ func RunFixtureSuite(skillDir string) ([]FixtureResult, error) {
 		return nil, fmt.Errorf("read tests dir: %w", err)
 	}
 
-	exec := NewExecutor()
 	var results []FixtureResult
 	for _, e := range entries {
 		name := e.Name()
