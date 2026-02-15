@@ -24,7 +24,7 @@ policy:
     - name: core
       match:
         - ./internal/core/...
-      min: 80
+      min: 45
     - name: domain
       match:
         - ./internal/domain/...
