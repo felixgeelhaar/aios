@@ -23,3 +23,11 @@ type ClientInstaller interface {
 func (c SyncSkillCommand) Normalized() SyncSkillCommand {
 	return SyncSkillCommand{SkillDir: strings.TrimSpace(c.SkillDir)}
 }
+
+// Validate checks that the command has all required fields.
+func (c SyncSkillCommand) Validate() error {
+	if c.SkillDir == "" {
+		return ErrSkillDirRequired
+	}
+	return nil
+}

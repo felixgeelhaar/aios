@@ -20,8 +20,8 @@ func NewService(resolver domain.SkillIDResolver, planner domain.WriteTargetPlann
 
 func (s Service) BuildSyncPlan(ctx context.Context, command domain.BuildSyncPlanCommand) (domain.BuildSyncPlanResult, error) {
 	cmd := command.Normalized()
-	if cmd.SkillDir == "" {
-		return domain.BuildSyncPlanResult{}, domain.ErrSkillDirRequired
+	if err := cmd.Validate(); err != nil {
+		return domain.BuildSyncPlanResult{}, err
 	}
 	skillID, err := s.resolver.ResolveSkillID(cmd.SkillDir)
 	if err != nil {

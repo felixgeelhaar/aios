@@ -16,21 +16,12 @@ func NewService(runner domain.FixtureRunner) Service {
 
 func (s Service) TestSkill(ctx context.Context, command domain.TestSkillCommand) (domain.TestSkillResult, error) {
 	cmd := command.Normalized()
-	if cmd.SkillDir == "" {
-		return domain.TestSkillResult{}, domain.ErrSkillDirRequired
+	if err := cmd.Validate(); err != nil {
+		return domain.TestSkillResult{}, err
 	}
 	results, err := s.runner.Run(ctx, cmd.SkillDir)
 	if err != nil {
 		return domain.TestSkillResult{}, err
 	}
-	failed := 0
-	for _, r := range results {
-		if !r.Passed {
-			failed++
-		}
-	}
-	return domain.TestSkillResult{
-		Results: results,
-		Failed:  failed,
-	}, nil
+	return domain.NewTestSkillResult(results), nil
 }

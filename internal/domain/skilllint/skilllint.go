@@ -24,3 +24,11 @@ type SkillLinter interface {
 func (c LintSkillCommand) Normalized() LintSkillCommand {
 	return LintSkillCommand{SkillDir: strings.TrimSpace(c.SkillDir)}
 }
+
+// Validate checks that the command has all required fields.
+func (c LintSkillCommand) Validate() error {
+	if c.SkillDir == "" {
+		return ErrSkillDirRequired
+	}
+	return nil
+}

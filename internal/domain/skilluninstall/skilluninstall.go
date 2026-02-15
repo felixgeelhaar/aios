@@ -23,3 +23,11 @@ type ClientUninstaller interface {
 func (c UninstallSkillCommand) Normalized() UninstallSkillCommand {
 	return UninstallSkillCommand{SkillDir: strings.TrimSpace(c.SkillDir)}
 }
+
+// Validate checks that the command has all required fields.
+func (c UninstallSkillCommand) Validate() error {
+	if c.SkillDir == "" {
+		return ErrSkillDirRequired
+	}
+	return nil
+}

@@ -16,8 +16,8 @@ func NewService(linter domain.SkillLinter) Service {
 
 func (s Service) LintSkill(ctx context.Context, command domain.LintSkillCommand) (domain.LintSkillResult, error) {
 	cmd := command.Normalized()
-	if cmd.SkillDir == "" {
-		return domain.LintSkillResult{}, domain.ErrSkillDirRequired
+	if err := cmd.Validate(); err != nil {
+		return domain.LintSkillResult{}, err
 	}
 	return s.linter.Lint(ctx, cmd.SkillDir)
 }

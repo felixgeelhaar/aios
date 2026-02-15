@@ -20,8 +20,8 @@ func NewService(resolver domain.SkillIDResolver, uninstaller domain.ClientUninst
 
 func (s Service) UninstallSkill(ctx context.Context, command domain.UninstallSkillCommand) (string, error) {
 	cmd := command.Normalized()
-	if cmd.SkillDir == "" {
-		return "", domain.ErrSkillDirRequired
+	if err := cmd.Validate(); err != nil {
+		return "", err
 	}
 	skillID, err := s.resolver.ResolveSkillID(cmd.SkillDir)
 	if err != nil {

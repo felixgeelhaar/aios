@@ -28,3 +28,11 @@ type WriteTargetPlanner interface {
 func (c BuildSyncPlanCommand) Normalized() BuildSyncPlanCommand {
 	return BuildSyncPlanCommand{SkillDir: strings.TrimSpace(c.SkillDir)}
 }
+
+// Validate checks that the command has all required fields.
+func (c BuildSyncPlanCommand) Validate() error {
+	if c.SkillDir == "" {
+		return ErrSkillDirRequired
+	}
+	return nil
+}

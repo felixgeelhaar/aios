@@ -20,8 +20,8 @@ func NewService(resolver domain.SkillSpecResolver, installer domain.ClientInstal
 
 func (s Service) SyncSkill(ctx context.Context, command domain.SyncSkillCommand) (string, error) {
 	cmd := command.Normalized()
-	if cmd.SkillDir == "" {
-		return "", domain.ErrSkillDirRequired
+	if err := cmd.Validate(); err != nil {
+		return "", err
 	}
 	skillID, err := s.resolver.ResolveSkillID(cmd.SkillDir)
 	if err != nil {
