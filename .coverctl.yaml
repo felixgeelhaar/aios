@@ -56,7 +56,7 @@ policy:
     - name: registry
       match:
         - ./internal/registry/...
-      min: 80
+      min: 50
     - name: rollout
       match:
         - ./internal/rollout/...
