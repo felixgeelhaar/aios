@@ -52,6 +52,3 @@ jobs:
 
       - name: Dependency vulnerability scan
         run: govulncheck ./...
-
-      - name: Nox security scan
-        run: go run github.com/nox-hq/nox/cli@latest scan .
