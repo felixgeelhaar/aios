@@ -49,4 +49,3 @@ func (c ConnectGoogleDriveCommand) Normalized() ConnectGoogleDriveCommand {
 		Timeout:       timeout,
 	}
 }
-

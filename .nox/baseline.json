@@ -376,6 +376,24 @@
       "severity": "medium",
       "reason": "Mock hex string in test file - not a real secret",
       "created_at": "2026-02-15T14:57:00.572017Z"
+    },
+    {
+      "fingerprint": "4cf48512dcf4b0529c8e2a32c622e4f207bc2277cc1cda3f319434ab2e66129d",
+      "rule_id": "",
+      "file_path": "",
+      "severity": "",
+      "reason": "FP: string literal is the policy engine's own prompt-injection detector (Engine.Evaluate matches 'ignore previous instructions'), not poisoned tool metadata",
+      "owner": "felixgeelhaar",
+      "created_at": "2026-07-11T11:16:13.387761Z"
+    },
+    {
+      "fingerprint": "a8aceb1548556b02ed5d46cf55d997473dac0662ddd8ab2c0c858b557d25204e",
+      "rule_id": "",
+      "file_path": "",
+      "severity": "",
+      "reason": "FP: heuristic name-match on management tools (execute_skill/sync_execute); MCP server exposes sandboxed skill/project/workspace ops, not a raw shell_exec primitive",
+      "owner": "felixgeelhaar",
+      "created_at": "2026-07-11T11:16:13.398914Z"
     }
   ]
 }

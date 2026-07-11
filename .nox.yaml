@@ -1,0 +1,38 @@
+# nox configuration — the security/dependency gate that replaces dependabot.
+# Schema reference: https://github.com/nox-hq/nox
+#
+# Only GENERATED, VENDORED, or PROSE/DATA artifacts are excluded here. All
+# first-party Go source — including *_test.go — is scanned. The remaining
+# first-party findings (Roady-generated plan.json entropy, capability
+# description strings, help text naming env vars, doc URLs) are documented
+# false positives accepted via .nox/baseline.json, never by blinding whole
+# source directories.
+
+scan:
+  exclude:
+    # Go module checksum database — SHA-256 module digests read as high-entropy
+    # secrets/API keys to the entropy detector. Real dependency CVEs are
+    # surfaced via OSV lookups on go.mod, not go.sum text.
+    # Classification: False Positive (module digests). Last reviewed: 2026-07-11
+    - go.sum
+    - "**/go.sum"
+    # Markdown is prose — README and docs/. The secret/PII entropy rules fire
+    # on ordinary documentation (example paths, env-var names, URLs).
+    # High-confidence real secret patterns are still caught in code, not prose.
+    # Classification: False Positive (prose). Last reviewed: 2026-07-11
+    - README.md
+    - "*.md"
+    - "**/*.md"
+    # Go test fixtures and generated protobuf. testdata/ is Go's conventional
+    # fixture dir (fake credentials, sample payloads); *.pb.go is generated code
+    # neither hand-edited nor a place a real secret would live.
+    # Classification: Generated/Fixture. Last reviewed: 2026-07-11
+    - testdata/
+    - "*.pb.go"
+    # nox's own baseline/cache and report output — finding fingerprints are
+    # SHA-256 hex that re-trip the secret detector. Never scan the scanner.
+    # Classification: Acceptable Pattern (scanner state). Last reviewed: 2026-07-11
+    - .nox/
+    - findings.json
+    - nox-results/
+    - "*.sarif"

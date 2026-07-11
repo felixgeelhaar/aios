@@ -196,6 +196,17 @@ func TestCLIDoctorFailJSONReturnsError(t *testing.T) {
 func TestCLIListClientsJSON(t *testing.T) {
 	buf := &bytes.Buffer{}
 	cli := DefaultCLI(buf, DefaultConfig())
+	// Stub client detection so the test is hermetic and does not depend on
+	// which AI clients happen to be installed on the host running CI.
+	cli.ListClients = func() map[string]any {
+		return map[string]any{
+			"opencode": map[string]any{
+				"path":      "",
+				"installed": true,
+				"skills":    []string{},
+			},
+		}
+	}
 	if err := cli.Run(context.Background(), "list-clients", "", "stdio", ":8080", "json"); err != nil {
 		t.Fatalf("list-clients failed: %v", err)
 	}
