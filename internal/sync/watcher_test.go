@@ -37,6 +37,7 @@ func TestPollingWatcherDetectsChangeAndRepairs(t *testing.T) {
 	if err := os.WriteFile(file, []byte(`{"v":broken}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	defer stopWatcher(t, cancel, events)
 
 	select {
 	case <-events:
@@ -88,6 +89,7 @@ func TestPollingWatcherObservesMultiplePaths(t *testing.T) {
 	if err := os.WriteFile(files[2], []byte(`{"v":changed}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	defer stopWatcher(t, cancel, events)
 
 	select {
 	case ev := <-events:
@@ -131,6 +133,7 @@ func TestPollingWatcherDetectsWithinInterval(t *testing.T) {
 	if err := os.WriteFile(file, []byte(`{"v":2}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	defer stopWatcher(t, cancel, events)
 	start := time.Now()
 	select {
 	case <-events:
@@ -158,7 +161,7 @@ func TestPollingWatcherAutoRepairCalledAutomatically(t *testing.T) {
 	defer cancel()
 
 	var repaired int32
-	_, err := w.Watch(ctx, engine, []string{root}, func(_ string) error {
+	events, err := w.Watch(ctx, engine, []string{root}, func(_ string) error {
 		atomic.AddInt32(&repaired, 1)
 		return nil
 	})
@@ -170,6 +173,7 @@ func TestPollingWatcherAutoRepairCalledAutomatically(t *testing.T) {
 	if err := os.WriteFile(file, []byte(`{"v":manual-edit}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	defer stopWatcher(t, cancel, events)
 
 	deadline := time.Now().Add(1 * time.Second)
 	for time.Now().Before(deadline) {
@@ -204,6 +208,7 @@ func TestPollingWatcherRepairFailureKeepsDrifted(t *testing.T) {
 	if err := os.WriteFile(file, []byte(`{"v":broken}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	defer stopWatcher(t, cancel, events)
 
 	select {
 	case <-events:
@@ -240,7 +245,7 @@ func TestPollingWatcherAllClientsCleanAfterRepair(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	_, err := w.Watch(ctx, engine, dirs, func(_ string) error {
+	events, err := w.Watch(ctx, engine, dirs, func(_ string) error {
 		// Successful repair.
 		return nil
 	})
@@ -252,6 +257,7 @@ func TestPollingWatcherAllClientsCleanAfterRepair(t *testing.T) {
 	if err := os.WriteFile(files[0], []byte(`{"v":changed}`), 0o644); err != nil {
 		t.Fatal(err)
 	}
+	defer stopWatcher(t, cancel, events)
 
 	// Wait for detection and repair cycle.
 	deadline := time.Now().Add(1 * time.Second)
@@ -262,4 +268,25 @@ func TestPollingWatcherAllClientsCleanAfterRepair(t *testing.T) {
 		time.Sleep(10 * time.Millisecond)
 	}
 	t.Fatalf("expected clean state after repair across all clients, got %s", engine.CurrentState())
+}
+
+// stopWatcher cancels a watcher and waits for its goroutine to actually exit
+// before the test returns.
+//
+// `defer cancel()` alone is not enough. cancel() returns immediately while the
+// watcher goroutine may still be inside the repair callback, writing into the
+// directory t.TempDir() is about to remove. TempDir's cleanup then races it and
+// the test fails on unrelated ground:
+//
+//	TempDir RemoveAll cleanup: unlinkat /tmp/.../client: directory not empty
+//
+// Watch closes the events channel when its goroutine returns, so draining to
+// close is the synchronisation point. Every test in this file writes into
+// TempDir from the callback, so every one of them had the race — the one that
+// surfaced in CI just lost the coin flip.
+func stopWatcher(t *testing.T, cancel context.CancelFunc, events <-chan WatchEvent) {
+	t.Helper()
+	cancel()
+	for range events {
+	}
 }
