@@ -11,3 +11,8 @@ __pycache__/
 .cursor/
 .goose/
 .windsurf/
+
+# Compiled binary from `go build -o aios ./cmd/aios`. Go binaries have no
+# file extension, so no `*.ext` pattern can catch them — they must be
+# ignored by path.
+/aios
