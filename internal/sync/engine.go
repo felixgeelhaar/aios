@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/felixgeelhaar/statekit"
+	"go.klarlabs.de/statekit"
 )
 
 const (
