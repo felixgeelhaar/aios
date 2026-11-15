@@ -6,7 +6,7 @@ License: Apache-2.0
 
 ## Requirements
 
-- Go 1.25+
+- Go 1.26+
 
 ## Quickstart
 
