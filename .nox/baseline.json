@@ -394,6 +394,38 @@
       "reason": "FP: heuristic name-match on management tools (execute_skill/sync_execute); MCP server exposes sandboxed skill/project/workspace ops, not a raw shell_exec primitive",
       "owner": "felixgeelhaar",
       "created_at": "2026-07-11T11:16:13.398914Z"
+    },
+    {
+      "fingerprint": "efffd45e45bdf218052ebd23a0a2fc2295219290f6341d868fed455c871b6993",
+      "rule_id": "IAC-155",
+      "file_path": ".github/workflows/nox-remediate.yml",
+      "severity": "medium",
+      "reason": "Reviewed: nox-remediate is a weekly scheduled remediation job; manual dispatch and contents/pull-requests write are required to open fix PRs and are intended (thin caller of the fleet's reusable workflow)",
+      "created_at": "2026-11-15T10:49:41.900482Z"
+    },
+    {
+      "fingerprint": "52922952e40b8c5ebd4fef0969dd782d57266e9ecccc4e9bddc9be74f0f6daa2",
+      "rule_id": "IAC-308",
+      "file_path": ".github/workflows/nox-remediate.yml",
+      "severity": "low",
+      "reason": "Reviewed: nox-remediate is a weekly scheduled remediation job; manual dispatch and contents/pull-requests write are required to open fix PRs and are intended (thin caller of the fleet's reusable workflow)",
+      "created_at": "2026-11-15T10:49:41.900482Z"
+    },
+    {
+      "fingerprint": "8378df7a1d4adb5806616a668bc89e456b48fe9b7212ca5799b5b8eddbe0ae9c",
+      "rule_id": "IAC-314",
+      "file_path": ".github/workflows/nox-remediate.yml",
+      "severity": "medium",
+      "reason": "Reviewed: nox-remediate is a weekly scheduled remediation job; manual dispatch and contents/pull-requests write are required to open fix PRs and are intended (thin caller of the fleet's reusable workflow)",
+      "created_at": "2026-11-15T10:49:41.900482Z"
+    },
+    {
+      "fingerprint": "4cf48512dcf4b0529c8e2a32c622e4f207bc2277cc1cda3f319434ab2e66129d",
+      "rule_id": "MCP-009",
+      "file_path": "internal/policy/engine.go",
+      "severity": "high",
+      "reason": "Reviewed false positive (second occurrence, identical fingerprint): engine.go is the sanitizer that detects the literal 'ignore previous instructions' to flag prompt injection; it is not tool metadata",
+      "created_at": "2026-11-15T00:00:00Z"
     }
   ]
 }
