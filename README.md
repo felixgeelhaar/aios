@@ -1,5 +1,7 @@
 # AIOS
 
+[![nox security grade](.github/nox-badge.svg)](.github/workflows/nox-scan.yml)
+
 AIOS is a Go monorepo that provides a CLI and supporting services for managing AI skill workflows, project inventory, and operational governance.
 
 License: Apache-2.0
